@@ -9,7 +9,7 @@ end project_tb;
 architecture projecttb of project_tb is
 constant c_CLOCK_PERIOD		: time := 100 ns;
 signal   tb_done		: std_logic;
-signal   mem_address		: std_logic_vector (15 downto 0) := (others => 0');
+signal   mem_address		: std_logic_vector (15 downto 0) := (others => '0');
 signal   tb_rst	                : std_logic := '0';
 signal   tb_start		: std_logic := '0';
 signal   tb_clk		        : std_logic := '0';
@@ -98,9 +98,9 @@ begin
     wait until tb_done = '0';
 
     -- Maschera di output = 0 - 42
-    assert RAM(9) = std_logic_vector(to_unsigned( 42 , 8)) report "TEST FALLITO. Expected  42  found " & integer'image(to_integer(unsigned(RAM(19))))  severity failure;
+    assert RAM(9) = std_logic_vector(to_unsigned( 42 , 8)) report "TEST FALLITO. Expected  42  found " & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
 
     assert false report "Simulation Ended!, TEST PASSATO" severity failure;
 end process test;
 
-end projecttb; 
+end projecttb;
