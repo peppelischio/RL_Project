@@ -45,11 +45,9 @@ architecture Behavioral of project_reti_logiche is
     CMP_WZ_ADDR,
     ONEHOT_ENCODE,
     WZ_FOUND,
-    WZ_FOUND_WAIT,
-    WZ_FOUND_WRITE,
     WZ_NOT_FOUND,
-    WZ_NOT_FOUND_WAIT,
-    WZ_NOT_FOUND_WRITE,
+    MEM_WRITE_WAIT,
+    MEM_WRITE_DONE,
     DONE,
     FSM_CLOSE);
   signal state : state_type;  -- Segnale che gestisce lo stato corrente e a cui assegnare lo stato futuro
@@ -161,32 +159,22 @@ architecture Behavioral of project_reti_logiche is
             o_we <= '1';
             o_address <= '0000000000001001';
             o_data <= '1' & std_logic_vector(to_unsigned(wzCounter, 3)) & onehotOffset;
-           state <= WZ_FOUND_WAIT;
+           state <= MEM_WRITE_WAIT;
 
 
-          when WZ_FOUND_WAIT  =>  --Attendo un clk per far attivare la memoria in uscita
-          state <= WZ_FOUND_WRITE;
+           when WZ_NOT_FOUND =>     -- Non ho trovato una WZ di appartenenza, il segnale viene stampato come unsigned in memoria.
+             o_en <= '1';
+             o_we <= '1';
+             o_address <= '0000000000001001';
+             o_data <= addressToEncode;
+             state <= MEM_WRITE_WAIT;
 
 
-          when WZ_FOUND_WRITE =>  --Il dato è arrivato alla memoria e posso abbassare i segnali
-          o_en <= '0';
-          o_we <= '0';
-          state <= DONE;
+          when MEM_WRITE_WAIT  =>  --Attendo un clk per far attivare la memoria in uscita
+          state <= MEM_WRITE_DONE;
 
 
-          when WZ_NOT_FOUND =>     -- Non ho trovato una WZ di appartenenza, il segnale viene stampato come unsigned in memoria.
-            o_en <= '1';
-            o_we <= '1';
-            o_address <= '0000000000001001';
-            o_data <= addressToEncode;
-            state <= WZ_NOT_FOUND_WAIT;
-
-
-          when WZ_NOT_FOUND_WAIT =>  --Attendo che la memoria riceva il dato
-              state <= WZ_NOT_FOUND_WRITE;
-
-
-          when WZ_NOT_FOUND_WRITE =>  -- La memoria ha ricevuto il dato, posso abbassare i segnali di enable.
+          when MEM_WRITE_DONE =>  --Il dato è arrivato alla memoria e posso abbassare i segnali
           o_en <= '0';
           o_we <= '0';
           state <= DONE;
@@ -199,7 +187,7 @@ architecture Behavioral of project_reti_logiche is
 
           when FSM_CLOSE =>           -- il test bench riceve il segnale di done, in questo stato attendo che start torni a 0 prima di andare a reset.
           if (i_start = '1') then
-            state = FSM_CLOSE
+            state <= FSM_CLOSE
           elsif (i_start ='0') then
             o_done <= '0';
             state <= RESET;
