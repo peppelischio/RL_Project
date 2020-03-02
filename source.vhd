@@ -1,15 +1,18 @@
 ------------------------------------------------------------------------------
--- 																			--
---PROVA FINALE - PROGETTO DI RETI LOGICHE 2019/2020 - INGEGNERIA INFORMATICA--
--- 																			--
--- 					Sezione prof. Fabio Salice							--
--- 																			--
--- 		Studenti: Lorenzo Gadolini (mat. 846882; cod.pers. 10522690)			--
---		          Giuseppe Lischio (mat. 847367; cod.pers. 10523449)			--
+--
+--              PROVA FINALE - PROGETTO DI RETI LOGICHE 2019/2020
+--                      --  INGEGNERIA INFORMATICA  --
+--
+-- 					              Sezione prof. Fabio Salice
+--
+	                                  --
+--
+-- 		                           Studenti:
+--
+--              Lorenzo Gadolini (mat. 846882; cod.pers. 10522690)
+--		          Giuseppe Lischio (mat. 847367; cod.pers. 10523449)
+--
 ------------------------------------------------------------------------------
-
-
-
 
 ------ LIBRERIE ------
 library IEEE;
