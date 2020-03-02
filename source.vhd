@@ -57,7 +57,7 @@ architecture Behavioral of project_reti_logiche is
     -- Variabili
     variable addressToEncode: std_logic_vector(7 downto 0);   -- std_logic_vector in cui salvare l'indirizzo su cui effettuare l'encoding
     variable wzBase: std_logic_vector(7 downto 0);            --indirizzo base della working zone letta
-    variable wzCounter: integer range -1 to 7;                --contatore che tiene traccia degli indirizzi base delle wz finora analizzati
+    variable wzCounter: integer range -1 to 8;                --contatore che tiene traccia degli indirizzi base delle wz finora analizzati
     variable wzOffset: integer;       --Range 0 to 3
     variable baseInteger: integer;
     variable addressInteger: integer;                        --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
