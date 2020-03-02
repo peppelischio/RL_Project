@@ -133,7 +133,7 @@ architecture Behavioral of project_reti_logiche is
           when CMP_WZ_ADDR =>
             wzOffset := to_integer(addressToEncode) - to_integer(wzBase);
             if ((wzOffset > -1) and (wzOffset < 4)) then
-              state <= WZ_FOUND;
+              state <= ONEHOT_ENCODE;
             else
               state <= RQST_WZ;
             end if;
@@ -142,24 +142,26 @@ architecture Behavioral of project_reti_logiche is
               --TODO prima di andare a WZ found faccio l' encoding in one hot
 
 
+          when ONEHOT_ENCODE =>  -- Lookup Table per la codifica dell'offset in onehot
+            begin
+                case wzOffset is
+                  when 0 => onehotOffset <= "0001";
+                  when 1 => onehotOffset <= "0010";
+                  when 2 => onehotOffset <= "0100";
+                  when 3 => onehotOffset <= "1000";
+                end case;
+
+          state <= WZ_FOUND;
+
+
+
           when WZ_FOUND =>
-            --qui devo cominciare a operare sulla codifica dell'indirizzo
-            --appartenente alla wz
 
-            --Per prima cosa conviene separare la fase di codifica one-hot dalla fase di concatenazione e di scrittura del dato in out, per velocizzare la FSM.
-
-
-
-
-
-
-
-          --TODO   questo blocco di codice contiene la parte di scrittura del dato in uscita
-          --  o_en <= '1';
-          --  o_we <= '1';
-          --  o_address <= '0000000000001001';
-          ----  o_data <= out_val_true;
-          --  state <= WZ_FOUND_WAIT;
+            o_en <= '1';
+            o_we <= '1';
+            o_address <= '0000000000001001';
+            o_data <= '1' & std_logic_vector(to_unsigned(wzCounter, 3)) & onehotOffset;
+           state <= WZ_FOUND_WAIT;
 
 
           when WZ_FOUND_WAIT  =>  --Attendo un clk per far attivare la memoria in uscita
