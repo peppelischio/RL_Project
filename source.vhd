@@ -75,15 +75,15 @@ architecture Behavioral of project_reti_logiche is
           when RESET =>                       --Stato di inizializzazione
             if (i_start = '1') then
               addressToEncode := "00000000";
-              o_data := "00000000";
+              o_data <= "00000000";
               wzBase := "00000000";
               wzCounter := -1;
               o_en <= '0';
               o_we <= '0';
               state <= RQST_ADDR;
 
-              out_val_true := 01010101;  --Test
-              out_val_false := 10101010; --Test
+              --out_val_true <= 01010101;  --Test
+              --out_val_false <= 10101010; --Test
               -- DA COMPLETARE --
             else
               state <= RESET;
@@ -103,7 +103,7 @@ architecture Behavioral of project_reti_logiche is
           when READ_ADDR =>                         --legge l'indirizzo da codificare dalla memoria e lo inserisce in una variabile
             addressToEncode := i_data;
             o_en <= '0';
-            state <= RQST_WZ
+            state <= RQST_WZ;
 
 
           when RQST_WZ =>                               --richiesta di lettura in memoria
@@ -111,7 +111,7 @@ architecture Behavioral of project_reti_logiche is
             if (wzCounter < 8) then
               o_en <= '1';
               o_we <= '0';
-              o_address <= "0000000000000000" + unsigned(wzCounter)); --definisco l'address di memoria che voglio leggere, incrementandolo ad ogni ciclo, qualora non venisse trovata una corrispondenza con una WZ
+              o_address <= std_logic_vector(to_unsigned( wzCounter, 16)); --definisco l'address di memoria che voglio leggere, incrementandolo ad ogni ciclo, qualora non venisse trovata una corrispondenza con una WZ
               state <= WAIT_WZ;
             else                                        --quando wzCounter arriva ad 8 vuol dire che ho già fatto il check su tutti gli indirizzi base delle WZ, non trovando nessuna corrispondenza
               state <= WZ_NOT_FOUND;
@@ -129,7 +129,7 @@ architecture Behavioral of project_reti_logiche is
 
           --Esegue il check di appartenenza ad una WZ. Sottrae l'indirizzo da verificare alla base della WZ, se il risultato è compreso fra 0 e 3 allora cade nella WZ
           when CMP_WZ_ADDR =>
-            wzOffset := to_integer(addressToEncode) - to_integer(wzBase);
+            wzOffset := to_integer(unsigned(addressToEncode)) - to_integer(unsigned(wzBase));
             if ((wzOffset > -1) and (wzOffset < 4)) then
               state <= ONEHOT_ENCODE;
             else
@@ -141,12 +141,13 @@ architecture Behavioral of project_reti_logiche is
 
 
           when ONEHOT_ENCODE =>  -- Lookup Table per la codifica dell'offset in onehot
-            begin
-                case wzOffset is
-                  when 0 => onehotOffset <= "0001";
-                  when 1 => onehotOffset <= "0010";
-                  when 2 => onehotOffset <= "0100";
-                  when 3 => onehotOffset <= "1000";
+       
+                  case wzOffset is
+                  when 0 => onehotOffset := "0001";
+                  when 1 => onehotOffset := "0010";
+                  when 2 => onehotOffset := "0100";
+                  when 3 => onehotOffset := "1000";
+                  when others => onehotOffset := "1111";
                 end case;
 
           state <= WZ_FOUND;
@@ -157,7 +158,7 @@ architecture Behavioral of project_reti_logiche is
 
             o_en <= '1';
             o_we <= '1';
-            o_address <= '0000000000001001';
+            o_address <= "0000000000001001";
             o_data <= '1' & std_logic_vector(to_unsigned(wzCounter, 3)) & onehotOffset;
            state <= MEM_WRITE_WAIT;
 
@@ -165,7 +166,7 @@ architecture Behavioral of project_reti_logiche is
            when WZ_NOT_FOUND =>     -- Non ho trovato una WZ di appartenenza, il segnale viene stampato come unsigned in memoria.
              o_en <= '1';
              o_we <= '1';
-             o_address <= '0000000000001001';
+             o_address <= "0000000000001001";
              o_data <= addressToEncode;
              state <= MEM_WRITE_WAIT;
 
@@ -187,7 +188,7 @@ architecture Behavioral of project_reti_logiche is
 
           when FSM_CLOSE =>           -- il test bench riceve il segnale di done, in questo stato attendo che start torni a 0 prima di andare a reset.
           if (i_start = '1') then
-            state <= FSM_CLOSE
+            state <= FSM_CLOSE;
           elsif (i_start ='0') then
             o_done <= '0';
             state <= RESET;
