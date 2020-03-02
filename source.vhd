@@ -48,12 +48,15 @@ architecture Behavioral of project_reti_logiche is
   signal state : state_type; -- segnale per la gestione degli START_WAIT
 
 
-  begin process (i_clk, i_rst)
+  begin
+    process (i_clk, i_rst)
     -- variabili utilizzate
     variable addressToEncode: std_logic_vector(7 downto 0);
     variable wzBase: std_logic_vector(7 downto 0); --indirizzo base della working zone letta
     variable wzCounter: integer range -1 to 7; --contatore che tiene traccia degli indirizzi base delle wz finora analizzati
     variable wzOffset: integer; --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
+    variable out_val_true: std_logic_vector (7 downto 0); --valore di test
+    variable out_val_false: std_logic_vector (7 downto 0); -- valore di test
     -- da completare --
 
     begin
@@ -73,6 +76,9 @@ architecture Behavioral of project_reti_logiche is
               o_en <= '0';
               o_we <= '0';
               state <= RQST_ADDR;
+
+              out_val_true := 01010101;
+              out_val_false := 10101010;
               -- DA COMPLETARE --
             else
               state <= RESET;
@@ -103,6 +109,8 @@ architecture Behavioral of project_reti_logiche is
             else --quando wzCounter arriva ad 8 vuol dire che ho già fatto il check su tutti gli indirizzi base delle WZ, non trovando nessuna corrispondenza
               state <= WZ_NOT_FOUND;
 
+            end if;
+
           when WAIT_WZ => --aspetta un ciclo di clock per leggere da memoria l'indirizzo base di una WZ
             state <= READ_WZ;
 
@@ -115,11 +123,25 @@ architecture Behavioral of project_reti_logiche is
             --faccio tipo un check sfruttando le sottrazioni
             --se -1 < addressToEncode - wzBase < 4
             wzOffset := to_integer(addressToEncode) - to_integer(wzBase);
-            if ((wzOffset > -1) and (wzOffset < 4)) --caso in cui l'indirizzo appartiene ad una working zone
+            if ((wzOffset > -1) and (wzOffset < 4)) then  --caso in cui l'indirizzo appartiene ad una working zone
               state <= WZ_FOUND;
             else
               state <= RQST_WZ;
 
+            end if;
+
           when WZ_FOUND =>
             --qui devo cominciare a operare sulla codifica dell'indirizzo
             --appartenente alla wz
+            o_en <= '1';
+            o_we <= '1';
+            o_address <= '0000000000001001';
+            o_data <= out_val_true;
+            state <= RESET;
+
+           
+
+          end case;
+        end if;
+      end process;
+    end Behavioral;
