@@ -22,8 +22,8 @@ use IEEE.NUMERIC_STD.ALL;
 --- ENTITY DEL PROGETTO ---
 entity project_reti_logiche is
     Port ( i_clk : in STD_LOGIC;
-           i_rst : in STD_LOGIC;
            i_start : in STD_LOGIC;
+           i_rst : in STD_LOGIC;
            i_data : in STD_LOGIC_VECTOR (7 downto 0);
            o_address : out STD_LOGIC_VECTOR (15 downto 0); --indirizzo di memoria per cui si richiede lettura/scrittura
            o_done : out STD_LOGIC;
@@ -44,9 +44,14 @@ architecture Behavioral of project_reti_logiche is
     READ_WZ,
     CMP_WZ_ADDR,
     WZ_FOUND,
-    WZ_NOT_FOUND);
+    WZ_FOUND_WAIT,
+    WZ_FOUND_WRITE,
+    WZ_NOT_FOUND,
+    WZ_NOT_FOUND_WAIT,
+    WZ_NOT_FOUND_WRITE,
+    DONE,
+    FSM_CLOSE);
   signal state : state_type; -- segnale per la gestione degli START_WAIT
-
 
   begin
     process (i_clk, i_rst)
@@ -57,7 +62,7 @@ architecture Behavioral of project_reti_logiche is
     variable wzOffset: integer; --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
     variable out_val_true: std_logic_vector (7 downto 0); --valore di test
     variable out_val_false: std_logic_vector (7 downto 0); -- valore di test
-    -- da completare --
+
 
     begin
       if (i_rst = '1') then 	--gestione reset asincrono con i_rst
@@ -66,7 +71,6 @@ architecture Behavioral of project_reti_logiche is
 
       if (rising_edge(i_clk)) then
         case state is
-
           when RESET =>
             if (i_start = '1') then --inizializzazione segnali e variabili all'arrivo del segnale di START
               addressToEncode := "00000000";
@@ -77,12 +81,11 @@ architecture Behavioral of project_reti_logiche is
               o_we <= '0';
               state <= RQST_ADDR;
 
-              out_val_true := 01010101;
-              out_val_false := 10101010;
+              out_val_true := 01010101;  --Test
+              out_val_false := 10101010; --Test
               -- DA COMPLETARE --
             else
               state <= RESET;
-
             end if;
 
           when RQST_ADDR => --richiede l'indirizzo da leggere in memoria
@@ -101,7 +104,7 @@ architecture Behavioral of project_reti_logiche is
 
           when RQST_WZ => --richiesta di lettura in memoria
             wzCounter := wzCounter + 1; --incremento il contatore per tenere traccia delle WZ che ho già analizzato
-            if (wzCounter < 8)
+            if (wzCounter < 8) then
               o_en <= '1';
               o_we <= '0';
               o_address <= "0000000000000000" + unsigned(wzCounter)); --definisco l'address di memoria che voglio leggere, incrementandolo ad ogni ciclo, qualora non venisse trovata una corrispondenza con una WZ
@@ -127,7 +130,6 @@ architecture Behavioral of project_reti_logiche is
               state <= WZ_FOUND;
             else
               state <= RQST_WZ;
-
             end if;
 
           when WZ_FOUND =>
@@ -137,11 +139,55 @@ architecture Behavioral of project_reti_logiche is
             o_we <= '1';
             o_address <= '0000000000001001';
             o_data <= out_val_true;
+            state <= WZ_FOUND_WAIT; --Cambiare con wz found wait e write
+
+          when WZ_FOUND_WAIT  =>
+          state <= WZ_FOUND_WRITE;
+
+          when WZ_FOUND_WRITE =>
+
+          o_en <= '0';
+          o_we <= '0';
+
+          state <= DONE;
+
+
+          when WZ_NOT_FOUND =>
+
+            o_en <= '1';
+            o_we <= '1';
+            o_address <= '0000000000001001';
+            o_data <= addressToEncode;
+            state <= WZ_NOT_FOUND_WAIT;
+
+
+          when WZ_NOT_FOUND_WAIT =>
+              state <= WZ_NOT_FOUND_WRITE;
+
+
+          when WZ_NOT_FOUND_WRITE =>
+
+          o_en <= '0';
+          o_we <= '0';
+          state <= DONE;
+
+          when DONE =>
+
+          o_done <= '1';
+          state <= FSM_CLOSE;
+
+          when FSM_CLOSE =>
+
+          if (i_start = '1') then
+            state = FSM_CLOSE
+
+          elsif (i_start ='0') then
+            o_done <= '0';
             state <= RESET;
 
-           
+          end if;
 
-          end case;
-        end if;
-      end process;
-    end Behavioral;
+        end case;
+      end if;
+    end process;
+  end Behavioral;
