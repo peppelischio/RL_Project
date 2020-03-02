@@ -58,9 +58,9 @@ architecture Behavioral of project_reti_logiche is
     variable addressToEncode: std_logic_vector(7 downto 0);   -- std_logic_vector in cui salvare l'indirizzo su cui effettuare l'encoding
     variable wzBase: std_logic_vector(7 downto 0);            --indirizzo base della working zone letta
     variable wzCounter: integer range -1 to 7;                --contatore che tiene traccia degli indirizzi base delle wz finora analizzati
-    variable wzOffset: integer;                               --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
-    variable out_val_true: std_logic_vector (7 downto 0);     --valore di test
-    variable out_val_false: std_logic_vector (7 downto 0);    -- valore di test
+    variable wzOffset: integer;       --Range 0 to 3
+    variable baseInteger: integer;
+    variable addressInteger: integer;                        --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
     variable encodedOutput: std_logic_vector (7 downto 0);    -- contiene l'indirizzo codificato rispetto ad una WZ.
     variable onehotOffset: std_logic_vector (3 downto 0);     -- Contiene la codifica onehot dell'offset
 
@@ -78,13 +78,12 @@ architecture Behavioral of project_reti_logiche is
               o_data <= "00000000";
               wzBase := "00000000";
               wzCounter := -1;
+              wzOffset := 0;
+              baseInteger:=0;
+              addressInteger:= 0;              
               o_en <= '0';
               o_we <= '0';
               state <= RQST_ADDR;
-
-              --out_val_true <= 01010101;  --Test
-              --out_val_false <= 10101010; --Test
-              -- DA COMPLETARE --
             else
               state <= RESET;
             end if;
@@ -93,7 +92,7 @@ architecture Behavioral of project_reti_logiche is
             o_en <= '1';
             o_we <= '0';
             o_address <= "0000000000001000";        --lettura dell'indirizzo 8, dove è memorizzato l'indirizzo da codificare
-            state <= WAIT_WZ;
+            state <= WAIT_ADDR;
 
 
           when WAIT_ADDR =>                         --aspetta un ciclo di clock per leggere da memoria l'indirizzo da codificare
@@ -129,16 +128,18 @@ architecture Behavioral of project_reti_logiche is
 
           --Esegue il check di appartenenza ad una WZ. Sottrae l'indirizzo da verificare alla base della WZ, se il risultato è compreso fra 0 e 3 allora cade nella WZ
           when CMP_WZ_ADDR =>
-            wzOffset := to_integer(unsigned(addressToEncode)) - to_integer(unsigned(wzBase));
+          
+          baseInteger := to_integer(unsigned(wzBase));
+          addressInteger := to_integer(unsigned(addressToEncode));
+                    
+            wzOffset := addressInteger - baseInteger; --TODO non va
             if ((wzOffset > -1) and (wzOffset < 4)) then
               state <= ONEHOT_ENCODE;
             else
               state <= RQST_WZ;
             end if;
 
-
               --TODO prima di andare a WZ found faccio l' encoding in one hot
-
 
           when ONEHOT_ENCODE =>  -- Lookup Table per la codifica dell'offset in onehot
        
