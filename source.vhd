@@ -83,6 +83,7 @@ architecture Behavioral of project_reti_logiche is
               addressInteger:= 0;              
               o_en <= '0';
               o_we <= '0';
+              o_done <= '0';
               state <= RQST_ADDR;
             else
               state <= RESET;
