@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.std_logic_unsigned.all;
+use STD.textio.all;
+use ieee.std_logic_textio.all;
 
 entity project_tb is
 end project_tb;
@@ -17,6 +19,13 @@ signal   mem_o_data,mem_i_data	: std_logic_vector (7 downto 0);
 signal   enable_wire  		: std_logic;
 signal   mem_we		        : std_logic;
 
+--variabili e segnali per gestione file di testo
+file testValuesFile : text open read_mode is "testNotAutogen.txt";
+shared variable row : line;
+shared variable dataIn : integer;
+shared variable expectedResult : integer;
+shared variable testCount : integer;
+signal load_ram : std_logic;
 type ram_type is array (65535 downto 0) of std_logic_vector(7 downto 0);
 
 -- come da esempio su specifica
@@ -67,8 +76,18 @@ begin
 end process p_CLK_GEN;
 
 
-MEM : process(tb_clk)
+MEM : process(tb_clk, load_ram)
 begin
+    if load_ram'event and load_ram = '1' then
+      readline(testValuesFile, row);
+      for i in 0 to 8 loop
+        read(row, dataIn);
+        RAM(i) <= std_logic_vector(to_unsigned(dataIn, 8));
+      end loop;
+      read(row, expectedResult);
+      RAM(9) <= '00000000';
+    end if;
+
     if tb_clk'event and tb_clk = '1' then
         if enable_wire = '1' then
             if mem_we = '1' then
@@ -84,21 +103,31 @@ end process;
 
 test : process is
 begin
+    testCount := 0;
+    load_ram <= '0';
     wait for 100 ns;
     wait for c_CLOCK_PERIOD;
     tb_rst <= '1';
     wait for c_CLOCK_PERIOD;
     tb_rst <= '0';
-    wait for c_CLOCK_PERIOD;
-    tb_start <= '1';
-    wait for c_CLOCK_PERIOD;
-    wait until tb_done = '1';
-    wait for c_CLOCK_PERIOD;
-    tb_start <= '0';
-    wait until tb_done = '0';
 
-    -- Maschera di output = 0 - 42
-    assert RAM(9) = std_logic_vector(to_unsigned( 42 , 8)) report "TEST FALLITO. Expected  42  found " & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
+    while (not endfile(testValuesFile)) loop
+      testCount := testCount + 1;
+      load_ram <= '1';
+      wait for c_CLOCK_PERIOD;
+      load_ram <= '0';
+      wait for c_CLOCK_PERIOD;
+      tb_start <= '1';
+      wait for c_CLOCK_PERIOD;
+      wait until tb_done = '1';
+      wait for c_CLOCK_PERIOD;
+      tb_start <= '0';
+      wait until tb_done = '0';
+
+    -- Assertions
+    assert RAM(9) = std_logic_vector(to_unsigned(expectedResult, 8)) report "TEST #" & integer'image(testCount) & "FALLITO. Expected" & integer'image(expectedResult) & "but found:" & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
+    report integer'image(testCount) & "test fatto" & integer'image(expected_result);
+    end loop;
 
     assert false report "Simulation Ended!, TEST PASSATO" severity failure;
 end process test;
