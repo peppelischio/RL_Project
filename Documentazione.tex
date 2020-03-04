@@ -1,0 +1,92 @@
+\documentclass{article}
+
+\title{Prova FInale di Reti Logiche\\ \large Politecnico di Milano}
+\author{Lorenzo Gadolini, \\ Giuseppe Lischio}
+\usepackage[a4paper, includeheadfoot,margin=2cm]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{siunitx}
+\usepackage{systeme}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{MnSymbol}
+\usepackage{tocbibind}
+\usepackage[toc,page]{appendix}
+
+
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{Roman}
+
+\tableofcontents
+
+
+\newpage
+\pagenumbering{arabic}
+
+
+
+
+\setcounter{page}{1}
+
+
+\section{Introduzione}
+
+Il metodo di codifica a working-zone propone un'ottimizzazione orientata alla riduzione del consumo di energia introdotto dall'input/output di un generico microprocessore.
+
+Sia dato un generico sistema composto da un processore e una memoria esterna al chip referenziabile tramite un bus indirizzi. Questo metodo suggerisce che un programma in esecuzione su dato sistema sfrutti durante la sua esecuzione un insieme di indirizzi "preferiti", e che quindi sia più efficiente racchiudere tutti questi indirizzi dentro uno spazio di lavoro (detto appunto Working-Zone). Gli indirizzi di queste Working-Zone sono codificati tramite un sistema base \& offset, così da ridurre ulteriormente la quantità di informazione trasmessa sul bus indirizzi, e di conseguenza ridurre anche l'energia dissipata.
+
+
+
+\subsection{Dati Progettuali e Specifica}
+
+
+Il componente da progettare ha come obiettivo quello di stabilire se un indirizzo che riceve in input appartiene o meno ad una delle working zone stabilite, e in caso affermativo di effettuare la traduzione dell'indirizzo da binario naturale a standard WZE.
+
+Il componente si interfaccia con una memoria (ram?) indirizzabile al byte a partire dall'indirizzo 0, e in cui vengono inizializzati i dati necessari per effettuare la computazione.
+
+Gli indirizzi di memoria da 0 a 7 contengono le basi delle 8 working zones stabilite in fase di setup. La cella di memoria 8 contiene l'indirizzo su cui effettuare analisi e codifica mentre
+
+
+
+
+ Il bit più significativo viene posto ad 1 ad indicare che è stata individuata una working zone di appartenenza, i tre bit successivi codificano in binario naturale l'identificatore della working zone, e gli ultimi quattro bit contengono l'offset codificato come numero naturale one-hot.
+
+Se il componente non individua nessuna working zone per l'indirizzo in input, allora produce in output un byte suddiviso in due parti, il bit più significativo viene posto a 0 concatenato al valore binario naturale dell'indirizzo.
+
+Il componente hardware è stato progettato tramite linguaggio VHDL in base alle specifiche fornite dal tema di progetto.
+
+La memoria con cui si interfaccia il componente è indirizzabile al byte, a partire dall'indirizzo 0. Gli indirizzi da 0 a 7 contengono tutte le basi delle working zone. Ogni working zone è composta da 4 indirizzi, la base e i suoi tre indirizzi successivi.
+
+La cella di memoria 8 contiene l'indirizzo in ingresso da codificare, mentre la cella numero 9 contiene il valore codificato a fine esecuzione.
+
+\subsubsection{Entity del componente}
+
+La struttura input/output del componente in VHDL è stata fornita nelle specifiche.
+%%FOTO delle specifiche del componente qua
+
+
+
+
+
+
+
+
+
+\section{Architettura}
+
+\section{Risultati Sperimentali}
+
+\section{Simulazioni}
+
+\section{Conclusioni}
+
+
+\end{document}
