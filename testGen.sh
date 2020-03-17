@@ -75,7 +75,7 @@ for testCases in {1..5000}
 
           ##qui inserisco lo switch case per la codifica oneHot dell'offset
           case $offsetFromWzBase in
-            0) onehotOffsetFromWzBase=0;;
+            0) onehotOffsetFromWzBase=1;;
             1) onehotOffsetFromWzBase=2;;
             2) onehotOffsetFromWzBase=4;;
             3) onehotOffsetFromWzBase=8;;
