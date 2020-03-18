@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{Prova FInale di Reti Logiche\\ \large Politecnico di Milano}
+\title{Prova Finale di Reti Logiche\\ \large Politecnico di Milano}
 \author{Lorenzo Gadolini, \\ Giuseppe Lischio}
 \usepackage[a4paper, includeheadfoot,margin=2cm]{geometry}
 \usepackage{amsfonts}
@@ -55,8 +55,6 @@ Il componente si interfaccia con una memoria (ram?) indirizzabile al byte a part
 Gli indirizzi di memoria da 0 a 7 contengono le basi delle 8 working zones stabilite in fase di setup. La cella di memoria 8 contiene l'indirizzo su cui effettuare analisi e codifica mentre
 
 
-
-
  Il bit più significativo viene posto ad 1 ad indicare che è stata individuata una working zone di appartenenza, i tre bit successivi codificano in binario naturale l'identificatore della working zone, e gli ultimi quattro bit contengono l'offset codificato come numero naturale one-hot.
 
 Se il componente non individua nessuna working zone per l'indirizzo in input, allora produce in output un byte suddiviso in due parti, il bit più significativo viene posto a 0 concatenato al valore binario naturale dell'indirizzo.
@@ -73,14 +71,90 @@ La struttura input/output del componente in VHDL è stata fornita nelle specific
 %%FOTO delle specifiche del componente qua
 
 
+%%TODO descrivere ogni singolo segnale
+
+
+\section{Architettura e Scelte Progettuali}
+
+Il progetto si basa su un algoritmo alquanto semplice.
+
+Dato uno stato iniziale di memoria, per prima cosa viene letto il dato di cui si necessita la codifica dall'indirizzo di memoria numero 8, successivamente il componente entra in un ciclo di calcolo. In questo ciclo di calcolo vengono letti uno alla volta i byte di memoria 0-7 contenenti gli indirizzi base delle Working zones. Il componente sottrae l'indirizzo da codificare all'indirizzo base letto, e verifica che il risultato cada fra 0 e 3. Questo risultato ha il significato di offset, e come da specifica, un offset compreso fra 0 e 4 indica un'appartenenza alla working zone. Qualsiasi altro risultato viene interpretato come "Non appartenenza".
+
+\subsection{Non Appartenenza}
+
+Un risultato che non appartiene a nessuna working zone deve venire propagato in uscita così come è stato letto da memoria in entrata. Il componente ha terminato gli otto cicli di verifica e ha determinato che l'indirizzo in input non appartiene a nessuna working zone. A questo punto la macchina carica i 7 bit dell'indirizzo nel registro di output, il quale era stato inizializzato di 8 bit tutti posti a zero, così da rispettare la specifica che prevede di emettere in uscita uno 0 seguito dai 7 bit dell'indirizzo scritti in binario naturale.
+
+\subsection{Appartenenza}
+
+Se il componente durante la sua esecuzione verifica che l'indirizzo da codificare cade all'interno del range di una delle basi, allora si avvia la procedura di encoding. Per prima cosa viene codificato l'offset. Il risultato della sottrazione appartiene ad un insieme finito e ristretto di valori, per questo si è scelto di creare una lookup table che contenesse le codifiche in onehot da assegnare al valore di uscita a seconda del valore di offset.
+Una volta scritto in memoria il primo quartetto di bit, il componente passa alla traduzione della tripletta di bit contenente l'indirizzo della working zone. Questa fase scrive i tre bit nel registro di out che corrispondono al valore binario naturale del byte di memoria che contiene l'indirizzo base.
+
+Infine il componente pone ad 1 il MSB del valore di uscita, cosi che chi riceve il valore tradotto a valle riconosce che è stato effettuato l'encoding.
+
+\subsection{Il design: La macchina a stati}
+
+Il progetto del componente parte dalla descrizione di una macchina a stati che esegua l'algoritmo poco fa descritto
+
+La macchina a stati completa che esegue la codifica è disegnata qui:
+
+%%Foto macchina a stati
 
 
 
+\subsubsection{Descrizione degli stati}
+
+\begin{itemize}
+
+\item RESET: Lo stato in cui la macchina viene avviata e a cui giunge una volta che riceve il segnale di reset. La macchina cicla su questo stato attendendo un segnale di start. Successivamente inizializza la memoria e salta al primo vero stato di esecuzione.
+
+\item RQST\_ ADDR: La macchina richiede alla memoria l'indirizzo da codificare.
+
+\item WAIT\_ ADDR: La macchina attende per un ciclo di clock la propagazione dei segnali alla memoria.
+
+\item READ\_ ADDR: La macchina ottiene il dato dalla memoria.
+
+\item RQST\_ WZ: La macchina richiede alla memoria il valore della n-esima base, dove n è compreso fra 0 e 7.
+
+\item WAIT\_ WZ: La macchina attende un ciclo di clock la propagazione dei segnali alla memoria.
+
+\item READ\_ WZ: La macchina ottiene la base n-esima dalla memoria.
+
+\item CMP\_ WZ\_ ADDR: La macchina esegue la sottrazione che determina l'appartenenza o meno e l'offset del dato da codificare.
+
+\item ONEHOT\_ ENCODE: La macchina codifica l'offset di un indirizzo che ha dato esito positivo in una comparazione.
+
+\item WZ\_ FOUND: La macchina prepara il byte contenente il dato codificato e notifica alla memoria che è pronto per essere scritto
+
+\item WZ\_ NOT\_ FOUND: La macchina notifica alla memoria che il dato non appartiene a nessuna Working Zone, e che è pronta a propagarlo senza codifica.
+
+\item MEM\_ WRITE \_ WAIT: La macchina attende un clock che la memoria riceva la sua richiesta di scrittura
+
+\item MEM\_ WRITE\_ DONE: La macchina completa la fase di scrittura.
+
+\item DONE: La macchina notifica il raggiungimento dello stato di terminazione.
+
+\item FSM\_ CLOSE: La macchina entra in attesa di una richiesta di reset.
+
+\end{itemize}
+
+\subsection{Il Codice VHDL}
+
+Fino a questo momento non è stata data nessuna descrizione fisica del componente al di fuori delle specifiche che descrivono il problema. In questo piccolo paragrafo viene fatta un'analisi di come è stata descritta la macchina a stati in linguaggio VHDL, analizzandone i segnali e i registri necessari al funzionamento.
+
+Il componente è stato descritto tramite codice VHDL Behavioral che implementa tutti gli stati descritti poco prima. %%Cambiare poco prima con il paragrafo, "stati descritti in x.y
+
+ Oltre all'architettura fornita dalla specifica, il componente possiede altri segnali e registri che si sono resi necessari in fase di scrittura di codice.
+
+%%Foto della sezione variabili qui
 
 
+\begin{itemize}
+
+\item Prima variabile
+%%Qui elenco puntato segnali
+\end{itemize}
 
 
-\section{Architettura}
 
 \section{Risultati Sperimentali}
 
