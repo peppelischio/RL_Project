@@ -50,9 +50,9 @@ Sia dato un generico sistema composto da un processore e una memoria esterna al 
 
 Il componente da progettare ha come obiettivo quello di stabilire se un indirizzo che riceve in input appartiene o meno ad una delle working zone stabilite, e in caso affermativo di effettuare la traduzione dell'indirizzo da binario naturale a standard WZE.
 
-Il componente si interfaccia con una memoria (ram?) indirizzabile al byte a partire dall'indirizzo 0, e in cui vengono inizializzati i dati necessari per effettuare la computazione.
+Il componente si interfaccia con una memoria indirizzabile al byte a partire dall'indirizzo 0, e in cui vengono inizializzati i dati necessari per effettuare la computazione.
 
-Gli indirizzi di memoria da 0 a 7 contengono le basi delle 8 working zones stabilite in fase di setup. La cella di memoria 8 contiene l'indirizzo su cui effettuare analisi e codifica mentre
+Gli indirizzi di memoria da 0 a 7 contengono le basi delle 8 working zones stabilite in fase di setup. La cella di memoria 8 contiene l'indirizzo su cui effettuare analisi e codifica mentre 
 
 
  Il bit più significativo viene posto ad 1 ad indicare che è stata individuata una working zone di appartenenza, i tre bit successivi codificano in binario naturale l'identificatore della working zone, e gli ultimi quattro bit contengono l'offset codificato come numero naturale one-hot.
@@ -78,7 +78,7 @@ La struttura input/output del componente in VHDL è stata fornita nelle specific
 
 Il progetto si basa su un algoritmo alquanto semplice.
 
-Dato uno stato iniziale di memoria, per prima cosa viene letto il dato di cui si necessita la codifica dall'indirizzo di memoria numero 8, successivamente il componente entra in un ciclo di calcolo. In questo ciclo di calcolo vengono letti uno alla volta i byte di memoria 0-7 contenenti gli indirizzi base delle Working zones. Il componente sottrae l'indirizzo da codificare all'indirizzo base letto, e verifica che il risultato cada fra 0 e 3. Questo risultato ha il significato di offset, e come da specifica, un offset compreso fra 0 e 4 indica un'appartenenza alla working zone. Qualsiasi altro risultato viene interpretato come "Non appartenenza".
+Dato uno stato iniziale di memoria, per prima cosa viene letto il dato di cui si necessita la codifica dall'indirizzo di memoria numero 8, successivamente il componente entra in un ciclo di calcolo. In questo ciclo di calcolo vengono letti uno alla volta i byte di memoria 0-7 contenenti gli indirizzi base delle Working zones. Il componente sottrae l'indirizzo da codificare all'indirizzo base letto, e verifica che il risultato cada fra 0 e 3. Questo risultato ha il significato di offset, e come da specifica, un offset compreso fra 0 e 3 indica un'appartenenza alla working zone. Qualsiasi altro risultato viene interpretato come "Non appartenenza".
 
 \subsection{Non Appartenenza}
 
