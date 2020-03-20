@@ -20,25 +20,16 @@ signal   enable_wire  		: std_logic;
 signal   mem_we		        : std_logic;
 
 --variabili e segnali per gestione file di testo
-file testValuesFile : text open read_mode is "testEnorme.txt";
-shared variable row : line;
+file testValuesFile : text open read_mode is "test13032020.txt";
+shared variable row : line; --linea del file di testo che viene letto
 shared variable dataIn : integer;
-shared variable expectedResult : integer;
-shared variable testCount : integer;
-signal load_ram : std_logic;
+shared variable expectedResult : integer; --risultato atteso dopo la codifica dell'indirizzo
+shared variable testCount : integer; --contatore dei casi di test che sono stati svolti
+signal load_ram : std_logic; --segnale per avviare il caricamento di nuovi dati di test da file
 type ram_type is array (65535 downto 0) of std_logic_vector(7 downto 0);
 
--- come da esempio su specifica
-signal RAM: ram_type := (0 => std_logic_vector(to_unsigned( 4 , 8)),
-                         1 => std_logic_vector(to_unsigned( 13 , 8)),
-                         2 => std_logic_vector(to_unsigned( 22 , 8)),
-                         3 => std_logic_vector(to_unsigned( 31 , 8)),
-                         4 => std_logic_vector(to_unsigned( 37 , 8)),
-                         5 => std_logic_vector(to_unsigned( 45 , 8)),
-                         6 => std_logic_vector(to_unsigned( 77 , 8)),
-                         7 => std_logic_vector(to_unsigned( 91 , 8)),
-                         8 => std_logic_vector(to_unsigned( 42 , 8)),
-			 others => (others =>'0'));
+--inizializzazione a zero delle celle della memoria
+signal RAM: ram_type := (others => (others =>'0'));
 
 component project_reti_logiche is
 port (
@@ -78,14 +69,16 @@ end process p_CLK_GEN;
 
 MEM : process(tb_clk, load_ram)
 begin
+    --quando il segnale load_ram sale, viene letta una nuova riga nel file
+    --contenente i casi di test da effettuare in sequenza
     if load_ram'event and load_ram = '1' then
       readline(testValuesFile, row);
-      for i in 0 to 8 loop
+      for i in 0 to 8 loop --loop per inserire in ram gli indirizzi delle wz
         read(row, dataIn);
         RAM(i) <= std_logic_vector(to_unsigned(dataIn, 8));
       end loop;
-      read(row, expectedResult);
-      RAM(9) <= "00000000";
+      read(row, expectedResult); --lettura del valore atteso dopo la codifica
+      RAM(9) <= "00000000"; --inizializzazione dell'indirizzo in cui memorizzare il valore codificato
     end if;
 
     if tb_clk'event and tb_clk = '1' then
@@ -111,9 +104,11 @@ begin
     wait for c_CLOCK_PERIOD;
     tb_rst <= '0';
 
+    --loop fino a che non si arriva alla fine del file di testo
+    --contenente i casi di test sequenziali
     while (not endfile(testValuesFile)) loop
       testCount := testCount + 1;
-      load_ram <= '1';
+      load_ram <= '1'; --alzando il segnale vengono caricati i nuovi valori da testare
       wait for c_CLOCK_PERIOD;
       load_ram <= '0';
       wait for c_CLOCK_PERIOD;
@@ -124,12 +119,12 @@ begin
       tb_start <= '0';
       wait until tb_done = '0';
 
-    -- Assertions
-    assert RAM(9) = std_logic_vector(to_unsigned(expectedResult, 8)) report "TEST #" & integer'image(testCount) & "FALLITO. Expected" & integer'image(expectedResult) & "but found:" & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
-    report integer'image(testCount) & "test fatto" & integer'image(expectedResult);
+      -- Assertions
+      assert RAM(9) = std_logic_vector(to_unsigned(expectedResult, 8)) report "TEST #" & integer'image(testCount) & " FALLITO. Expected " & integer'image(expectedResult) & " but found: " & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
+      report integer'image(testCount) & "test fatto" & integer'image(expectedResult);
     end loop;
 
-    assert false report "Simulation Ended!, TEST PASSATO" severity failure;
+    assert false report "Simulation Ended!, SUPERATI TUTTI I " & integer'image(testCount) & " TEST" severity failure;
 end process test;
 
 end projecttb;
