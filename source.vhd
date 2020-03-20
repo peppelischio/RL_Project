@@ -21,15 +21,15 @@ use IEEE.NUMERIC_STD.ALL;
 
 --- ENTITY DEL PROGETTO ---
 entity project_reti_logiche is
-    Port ( i_clk : in STD_LOGIC;
-           i_start : in STD_LOGIC;
-           i_rst : in STD_LOGIC;
-           i_data : in STD_LOGIC_VECTOR (7 downto 0);
-           o_address : out STD_LOGIC_VECTOR (15 downto 0); --indirizzo di memoria per cui si richiede lettura/scrittura
-           o_done : out STD_LOGIC;
-           o_en : out STD_LOGIC;	--segnale di ENABLE per poter comunicare con la memoria
-           o_we : out STD_LOGIC;	--segnale di abilitazione alla scrittura in memoria
-           o_data : out STD_LOGIC_VECTOR (7 downto 0)); --dato da scrivere in memoria
+    Port ( i_clk : in STD_LOGIC;                           --Input clock proveniente dal testbench.
+           i_start : in STD_LOGIC;                         --Segnale di avvio della computazione generato dal testbench.
+           i_rst : in STD_LOGIC;                           --Segnale di reset generato dal testbench.
+           i_data : in STD_LOGIC_VECTOR (7 downto 0);      --Input Byte proveniente dalla memoria esterna.
+           o_address : out STD_LOGIC_VECTOR (15 downto 0); --Indirizzo di memoria per cui si richiede lettura/scrittura.
+           o_done : out STD_LOGIC;                         --Segnale di terminazione della computazione generato dal componente.
+           o_en : out STD_LOGIC;                           --segnale di ENABLE per poter comunicare con la memoria
+           o_we : out STD_LOGIC;	                         --segnale di abilitazione alla scrittura in memoria
+           o_data : out STD_LOGIC_VECTOR (7 downto 0));    --dato da scrivere in memoria
 end project_reti_logiche;
 
 -- BEHAVIORAL ARCHITECTURE --
@@ -80,7 +80,7 @@ architecture Behavioral of project_reti_logiche is
               wzCounter := -1;
               wzOffset := 0;
               baseInteger:=0;
-              addressInteger:= 0;              
+              addressInteger:= 0;
               o_en <= '0';
               o_we <= '0';
               o_done <= '0';
@@ -129,10 +129,10 @@ architecture Behavioral of project_reti_logiche is
 
           --Esegue il check di appartenenza ad una WZ. Sottrae l'indirizzo da verificare alla base della WZ, se il risultato è compreso fra 0 e 3 allora cade nella WZ
           when CMP_WZ_ADDR =>
-          
+
           baseInteger := to_integer(unsigned(wzBase));
           addressInteger := to_integer(unsigned(addressToEncode));
-                    
+
             wzOffset := addressInteger - baseInteger; --TODO non va
             if ((wzOffset > -1) and (wzOffset < 4)) then
               state <= ONEHOT_ENCODE;
@@ -143,7 +143,7 @@ architecture Behavioral of project_reti_logiche is
               --TODO prima di andare a WZ found faccio l' encoding in one hot
 
           when ONEHOT_ENCODE =>  -- Lookup Table per la codifica dell'offset in onehot
-       
+
                   case wzOffset is
                   when 0 => onehotOffset := "0001";
                   when 1 => onehotOffset := "0010";
