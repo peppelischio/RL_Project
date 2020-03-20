@@ -158,7 +158,30 @@ Il componente è stato descritto tramite codice VHDL Behavioral che implementa t
 
 \section{Risultati Sperimentali}
 
+\subsection{Risultati della sintesi}
+%%report della sintesi, ma che è?
+
+
+
+
+
 \section{Simulazioni}
+
+In questo paragrafo verranno discussi i metodi utilizzati per verificare il corretto funzionamento del componente progettato. In particolare è stato usato il software Xilinx "Vivado" per scrivere i test bench e per effettuare vari tipi di simulazione: 
+
+\begin{itemize}
+
+\item Simulazione \textbf{Behavioral}: test del funzionamento logico del componente, basato sul codice VHDL scritto, senza passare per la sintesi virtuale del componente.
+
+\item Simulazione \textbf{Post-Synthesis Functional}: test che permette di verificare il comportamento strutturale del componente descritto. Viene eseguito dopo aver terminato il processo di sintesi virtuale
+
+\item Simulazione \textbf{Post-Synthesis Timing}: test analogo al \textit{Post-Synthesis Functional}, che tiene però conto di tutti i ritardi introdotti dalle porte logiche usate nella simulazione del componente virtuale.
+
+\end{itemize}
+
+
+
+%%poi da fare un elenco con i vari test bench eseguiti, spiegando cosa si è andato a testare. In particolare per il testing post sintesi timing fare il discorso su i vari test fatti con il periodo di clock sempre più corto.
 
 \section{Conclusioni}
 

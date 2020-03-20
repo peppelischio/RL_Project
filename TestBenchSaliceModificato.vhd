@@ -20,7 +20,7 @@ signal   enable_wire  		: std_logic;
 signal   mem_we		        : std_logic;
 
 --variabili e segnali per gestione file di testo
-file testValuesFile : text open read_mode is "testNotAutogen.txt";
+file testValuesFile : text open read_mode is "testEnorme.txt";
 shared variable row : line;
 shared variable dataIn : integer;
 shared variable expectedResult : integer;
@@ -85,7 +85,7 @@ begin
         RAM(i) <= std_logic_vector(to_unsigned(dataIn, 8));
       end loop;
       read(row, expectedResult);
-      RAM(9) <= '00000000';
+      RAM(9) <= "00000000";
     end if;
 
     if tb_clk'event and tb_clk = '1' then
@@ -126,7 +126,7 @@ begin
 
     -- Assertions
     assert RAM(9) = std_logic_vector(to_unsigned(expectedResult, 8)) report "TEST #" & integer'image(testCount) & "FALLITO. Expected" & integer'image(expectedResult) & "but found:" & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
-    report integer'image(testCount) & "test fatto" & integer'image(expected_result);
+    report integer'image(testCount) & "test fatto" & integer'image(expectedResult);
     end loop;
 
     assert false report "Simulation Ended!, TEST PASSATO" severity failure;
