@@ -6,10 +6,10 @@
 \contentsline {section}{\numberline {2}Architettura e Scelte Progettuali}{2}%
 \contentsline {subsection}{\numberline {2.1}L'algoritmo}{2}%
 \contentsline {subsection}{\numberline {2.2}Non Appartenenza}{2}%
-\contentsline {subsection}{\numberline {2.3}Appartenenza}{2}%
-\contentsline {subsection}{\numberline {2.4}Il design: La macchina a stati}{2}%
-\contentsline {subsubsection}{\numberline {2.4.1}Descrizione degli stati}{3}%
-\contentsline {subsection}{\numberline {2.5}Il Codice VHDL}{3}%
-\contentsline {section}{\numberline {3}Risultati della Sintesi}{3}%
-\contentsline {section}{\numberline {4}Simulazioni}{4}%
-\contentsline {section}{\numberline {5}Conclusioni}{4}%
+\contentsline {subsection}{\numberline {2.3}Appartenenza}{3}%
+\contentsline {subsection}{\numberline {2.4}Il design: La macchina a stati}{3}%
+\contentsline {subsubsection}{\numberline {2.4.1}Descrizione degli stati}{4}%
+\contentsline {subsection}{\numberline {2.5}Il Codice VHDL}{4}%
+\contentsline {section}{\numberline {3}Risultati della Sintesi}{6}%
+\contentsline {section}{\numberline {4}Simulazioni}{6}%
+\contentsline {section}{\numberline {5}Conclusioni}{6}%

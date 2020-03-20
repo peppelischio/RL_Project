@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.3.20)  20 MAR 2020 20:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.3.20)  20 MAR 2020 22:07
 entering extended mode
 **./Documentazione.tex
 (Documentazione.tex
@@ -822,8 +822,8 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
  [1
 
 {C:/Users/lollo/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 6
-9.
+LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 9
+5.
 
 ("C:\Users\lollo\AppData\Local\Programs\MiKTeX 2.9\tex/latex/inconsolata\ot1zi4
 .fd"
@@ -832,35 +832,52 @@ File: ot1zi4.fd 2018/01/14 OT1/zi4 (Inconsolata)
 <./Images/Entity.png, id=21, 1883.53688pt x 478.78876pt>
 File: ./Images/Entity.png Graphic file (type png)
 <use ./Images/Entity.png>
-Package pdftex.def Info: ./Images/Entity.png  used on input line 107.
-(pdftex.def)             Requested size: 433.20438pt x 110.1191pt.
- [2 <./Images/Entity.png>] [3] [4] (Documentazione.aux) ) 
+Package pdftex.def Info: ./Images/Entity.png  used on input line 139.
+(pdftex.def)             Requested size: 508.56177pt x 129.27469pt.
+
+Overfull \hbox (24.8649pt too wide) in paragraph at lines 139--140
+ [] 
+ []
+
+[2 <./Images/Entity.png>]
+<./Images/FSM.png, id=27, 1107.38719pt x 1068.24094pt>
+File: ./Images/FSM.png Graphic file (type png)
+<use ./Images/FSM.png>
+Package pdftex.def Info: ./Images/FSM.png  used on input line 180.
+(pdftex.def)             Requested size: 442.94704pt x 427.2888pt.
+ [3 <./Images/FSM.png>]
+<./Images/Behavioral.png, id=32, 1469.49pt x 1046.40938pt>
+File: ./Images/Behavioral.png Graphic file (type png)
+<use ./Images/Behavioral.png>
+Package pdftex.def Info: ./Images/Behavioral.png  used on input line 254.
+(pdftex.def)             Requested size: 455.5372pt x 324.38356pt.
+ [4] [5 <./Images/Behavioral.png>] [6] (Documentazione.aux) ) 
 Here is how much of TeX's memory you used:
- 19245 strings out of 480900
- 387561 string characters out of 2898321
- 566647 words of memory out of 3000000
- 34757 multiletter control sequences out of 15000+200000
+ 19262 strings out of 480900
+ 387834 string characters out of 2898321
+ 566679 words of memory out of 3000000
+ 34774 multiletter control sequences out of 15000+200000
  554120 words of font info for 104 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,8n,60p,687b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\lollo\AppDa
-ta\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk>{C:/Users/lo
-llo/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/inconsolata/i4-ot1-0.enc}
-<C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/inconsolat
-a/Inconsolata-zi4r.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lollo/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lollo/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lollo/Ap
-pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Us
-ers/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
-7.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmr6.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmr7.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/lollo/AppData/Local/Programs/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Documentazione.pdf (5 pages, 274515 bytes).
+ 60i,8n,60p,594b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\lollo\A
+ppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk>{C:/User
+s/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/inconsolata/i4-ot1-0.
+enc}<C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/incons
+olata/Inconsolata-zi4r.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lollo/AppData/Local/Programs/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lollo/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/loll
+o/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
+:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmr17.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr6.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmr7.pfb><C:/Users/lollo/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/lollo/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on Documentazione.pdf (7 pages, 515523 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
+ 82 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
