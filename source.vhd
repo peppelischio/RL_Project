@@ -27,9 +27,9 @@ entity project_reti_logiche is
            i_data : in STD_LOGIC_VECTOR (7 downto 0);      --Input Byte proveniente dalla memoria esterna.
            o_address : out STD_LOGIC_VECTOR (15 downto 0); --Indirizzo di memoria per cui si richiede lettura/scrittura.
            o_done : out STD_LOGIC;                         --Segnale di terminazione della computazione generato dal componente.
-           o_en : out STD_LOGIC;                           --segnale di ENABLE per poter comunicare con la memoria
-           o_we : out STD_LOGIC;	                         --segnale di abilitazione alla scrittura in memoria
-           o_data : out STD_LOGIC_VECTOR (7 downto 0));    --dato da scrivere in memoria
+           o_en : out STD_LOGIC;                           --Segnale di ENABLE per poter comunicare con la memoria.
+           o_we : out STD_LOGIC;	                         --Segnale di abilitazione alla scrittura in memoria.
+           o_data : out STD_LOGIC_VECTOR (7 downto 0));    --Dato da scrivere in memoria.
 end project_reti_logiche;
 
 -- BEHAVIORAL ARCHITECTURE --
@@ -58,9 +58,9 @@ architecture Behavioral of project_reti_logiche is
     variable addressToEncode: std_logic_vector(7 downto 0);   -- std_logic_vector in cui salvare l'indirizzo su cui effettuare l'encoding
     variable wzBase: std_logic_vector(7 downto 0);            --indirizzo base della working zone letta
     variable wzCounter: integer range -1 to 8;                --contatore che tiene traccia degli indirizzi base delle wz finora analizzati
-    variable wzOffset: integer;       --Range 0 to 3
+    variable wzOffset: integer;                               --Range 0 to 3
     variable baseInteger: integer;
-    variable addressInteger: integer;                        --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
+    variable addressInteger: integer;                         --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
     variable encodedOutput: std_logic_vector (7 downto 0);    -- contiene l'indirizzo codificato rispetto ad una WZ.
     variable onehotOffset: std_logic_vector (3 downto 0);     -- Contiene la codifica onehot dell'offset
 

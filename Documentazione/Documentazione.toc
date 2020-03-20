@@ -8,9 +8,8 @@
 \contentsline {subsection}{\numberline {2.2}Non Appartenenza}{2}%
 \contentsline {subsection}{\numberline {2.3}Appartenenza}{2}%
 \contentsline {subsection}{\numberline {2.4}Il design: La macchina a stati}{2}%
-\contentsline {subsubsection}{\numberline {2.4.1}Descrizione degli stati}{2}%
+\contentsline {subsubsection}{\numberline {2.4.1}Descrizione degli stati}{3}%
 \contentsline {subsection}{\numberline {2.5}Il Codice VHDL}{3}%
-\contentsline {section}{\numberline {3}Risultati Sperimentali}{3}%
-\contentsline {subsection}{\numberline {3.1}Risultati della sintesi}{3}%
-\contentsline {section}{\numberline {4}Simulazioni}{3}%
-\contentsline {section}{\numberline {5}Conclusioni}{3}%
+\contentsline {section}{\numberline {3}Risultati della Sintesi}{3}%
+\contentsline {section}{\numberline {4}Simulazioni}{4}%
+\contentsline {section}{\numberline {5}Conclusioni}{4}%

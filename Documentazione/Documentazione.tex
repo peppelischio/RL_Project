@@ -6,12 +6,13 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\graphicspath{{./Images/}}
 \usepackage{mathrsfs}
 \usepackage{siunitx}
 \usepackage{systeme}
 \usepackage{textcomp}
 \usepackage{xcolor}
-\usepackage{wrapfig} 
+\usepackage{wrapfig}
 \usepackage{tikz}
 \usepackage{MnSymbol}
 \usepackage{tocbibind}
@@ -42,7 +43,7 @@
 
 \section{Introduzione}
 
-Il metodo di codifica a working-zone propone un'ottimizzazione orientata alla riduzione del consumo di energia introdotto dall'input/output di un microprocessore. 
+Il metodo di codifica a working-zone propone un'ottimizzazione orientata alla riduzione del consumo di energia introdotto dall'input/output di un microprocessore.
 
 Sia dato un generico sistema composto da un processore e una memoria esterna al chip referenziabile tramite un bus indirizzi. Questo metodo suggerisce che un programma in esecuzione sul dato sistema sfrutti durante la sua esecuzione un insieme di indirizzi "preferiti", e che quindi sia più efficiente racchiudere tutti questi indirizzi dentro uno spazio di lavoro (detto appunto Working-Zones). Gli indirizzi di queste Working-Zones sono codificati tramite un sistema base e offset, così da ridurre ulteriormente la quantità di informazione trasmessa sul bus indirizzi, e di conseguenza ridurre anche l'energia dissipata.
 
@@ -56,7 +57,7 @@ Gli indirizzi di memoria da 0 a 7 contengono le basi delle 8 Working-Zones stabi
 La cella di memoria 8 contiene l'indirizzo su cui effettuare la verifica e l'eventuale codifica, anch'esso scritto in binario naturale senza segno su 7 bit.
 L'indirizzo di memoria 9 conterrà a fine computazione un numero di 8 bit senza segno, che come verrà descritto più avanti potrà essere una codifica o un indirizzo semplice.
 
-I restanti indirizzi sono tutti inizializzati a 0 e non vengono sfruttati durante la computazione. 
+I restanti indirizzi sono tutti inizializzati a 0 e non vengono sfruttati durante la computazione.
 
 \subsection{La fase di traduzione}
 
@@ -73,12 +74,12 @@ Un indirizzo che non appartiene a nessuna Working-Zone fa entrare il componente 
 
 \bigskip
 
-Se il componente stabilisce che l'indirizzo appartiene ad una Working-Zone, scatta la fase di "Appartenenza", il dato necessita di encoding. 
-Un indirizzo codificato è un numero di 8 bit senza segno composto da tre sottogruppi di bit. 
+Se il componente stabilisce che l'indirizzo appartiene ad una Working-Zone, scatta la fase di "Appartenenza", il dato necessita di encoding.
+Un indirizzo codificato è un numero di 8 bit senza segno composto da tre sottogruppi di bit.
 
 \begin{itemize}
 \item Il bit più significativo viene posto ad "1", che indica "Codifica avvenuta";
-\item I tre bit successivi codificano posizionalmente la Working-Zone a cui tale indirizzo appartiene. Il dato in uscita è un numero binario naturale senza segno da 0 a 7 che indica che l'indirizzo appartiene alla "n-esima" Working-Zone. 
+\item I tre bit successivi codificano posizionalmente la Working-Zone a cui tale indirizzo appartiene. Il dato in uscita è un numero binario naturale senza segno da 0 a 7 che indica che l'indirizzo appartiene alla "n-esima" Working-Zone.
 \item I quattro bit finali codificano l'offset dell'indirizzo dalla base. Il numero codificato è un numero binario One Hot. L'offset indica la distanza posizionale in memoria dall'indirizzo base, ovvero l'indirizzo "si trova a" n indirizzi dalla base.  %%Se si crea un appendice, spiegare la codifica one hot.
 \end{itemize}
 
@@ -102,17 +103,16 @@ Il componente hardware è stato progettato tramite linguaggio VHDL in base alle 
 
 La struttura input/output del componente in VHDL è stata fornita nelle specifiche ed è di seguito riportata.
 
-\begin{gitFont} Struttura qua \end{gitFont}
-
-
-%%TODO descrivere ogni singolo segnale
+\begin{center}
+\includegraphics[scale=0.23]{Entity}
+\end{center}
 
 
 \section{Architettura e Scelte Progettuali}
 
 \subsection{L'algoritmo}
 
-Il progetto si basa su un algoritmo alquanto semplice. 
+Il progetto si basa su un algoritmo alquanto semplice.
 
 Dato uno stato iniziale di memoria, per prima cosa viene letto il dato di cui si necessita la codifica dall'indirizzo di memoria numero 8, successivamente il componente entra in un ciclo di calcolo. In questo ciclo di calcolo vengono letti uno alla volta i byte di memoria 0-7 contenenti gli indirizzi base delle Working zones. Il componente sottrae l'indirizzo da codificare all'indirizzo base letto, e verifica che il risultato cada fra 0 e 3. Questo risultato ha il significato di offset, e come da specifica, un offset compreso fra 0 e 3 (inclusi) indica un'appartenenza alla working zone. Qualsiasi altro risultato viene interpretato come "Non appartenenza".
 
@@ -190,18 +190,15 @@ Il componente è stato descritto tramite codice VHDL Behavioral che implementa t
 %%Qui elenco puntato segnali
 \end{itemize}
 
-\section{Risultati Sperimentali}
+\section{Risultati della Sintesi}
+Il componente progettato è stato sintetizzato in maniera virtuale tramite l'apposito tool di Vivado. La sintetizzazione ha dato un risultato positivo, ed il componente è stato successivamente testato anche post sintesi, con gli stessi test effettuati per il solo funzionamento logico. Inoltre è emerso che il componente funziona correttamente anche impostando periodi di clock molto inferiori al requisito minimo della specifica (100 ns). Qui di seguito il dettaglio dei segnali del componente durante un test con clock a 5 ns:
 
-\subsection{Risultati della sintesi}
-%%report della sintesi, ma che è?
-
-
-
+%%da aggiungere screen con il dettaglio dei segnali con clock tipo a 10ns
 
 
 \section{Simulazioni}
 
-In questo paragrafo verranno discussi i metodi utilizzati per verificare il corretto funzionamento del componente progettato. In particolare è stato usato il software Xilinx "Vivado" per scrivere i test bench e per effettuare vari tipi di simulazione: 
+In questo paragrafo verranno discussi i metodi utilizzati per verificare il corretto funzionamento del componente progettato. In particolare è stato usato il software Xilinx "Vivado" per scrivere i test bench e per effettuare vari tipi di simulazione:
 
 \begin{itemize}
 
