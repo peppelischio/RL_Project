@@ -12,4 +12,5 @@
 \contentsline {subsection}{\numberline {2.5}Il Codice VHDL}{4}%
 \contentsline {section}{\numberline {3}Risultati della Sintesi}{6}%
 \contentsline {section}{\numberline {4}Simulazioni}{6}%
+\contentsline {subsection}{\numberline {4.1}Test Benches}{6}%
 \contentsline {section}{\numberline {5}Conclusioni}{6}%

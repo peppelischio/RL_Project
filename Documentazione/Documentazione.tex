@@ -304,6 +304,22 @@ In questo paragrafo verranno discussi i metodi utilizzati per verificare il corr
 
 \end{itemize}
 
+\subsection{Test Benches}
+
+Le tipologie di simulazione descritte sopra, sono state applicate su casi di test scritti ad hoc, per individuare eventuali punti deboli del funzionamento del componente. I test a cui la macchina è stata sottoposta sono:
+
+\begin{itemize}
+
+\item Test Bench singolo: test analogo a quello fornito dal personale docente, che sottopone alla macchina un singolo caso di test, per poi terminare.
+
+\item Test Bench sequenziale: vengono sottoposti alla macchina dei casi di test da effettuare in maniera sequenziale. Per effettuare questo tipo di test, si è pensato di aggiungere al test bench singolo, una gestione dei valori in input tramite un file di testo, contente un caso di test per ogni riga. La macchina, dopo aver terminato la computazione (ritornando allo stato di reset???) ed aver riportato il segnale \begin{gitFont}tb{\_}done \end{gitFont} al livello basso, riceve un segnale creato ad hoc, chiamato \begin{gitFont}load{\_}ram \end{gitFont}, grazie al quale viene fatta partire la lettura di un nuovo caso di test da input, i cui valori vengono copiati in memoria, e con i quali viene eseguita una nuova computazione. In questo modo si è potuto verificare che la macchina non ha problemi con il reset dei segnali e delle celle di memoria. Inoltre è stato possibile testare la macchina su migliaia di casi di test diversi, generati automaticamente tramite degli appositi script. 
+%%qui c'è da inserire la foto e evidenziare il fatto che c'è un segnale di load ram che carica la nuova sequenza di valori presi dal file
+
+\item Test Bench reset asincrono: viene testata la capacità della macchina di gestire un reset asincrono durante l'esecuzione di casi di test sequenziali 
+%%oppure faccio una sezione con tutti i vari screenshot, e per ognuno aggiungo un commento in cui spiego il contesto e la peculiarità da notare
+
+\end{itemize}
+
 
 
 %%poi da fare un elenco con i vari test bench eseguiti, spiegando cosa si è andato a testare. In particolare per il testing post sintesi timing fare il discorso su i vari test fatti con il periodo di clock sempre più corto.
