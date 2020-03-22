@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.3.18)  21 MAR 2020 15:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.3.18)  22 MAR 2020 18:27
 entering extended mode
 **./Documentazione.tex
 (Documentazione.tex
@@ -810,7 +810,7 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 
 {C:/Users/Giuseppe Lischio/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    Trying to load font information for OT1+zi4 on input line 9
-5.
+9.
 
 ("C:\Users\Giuseppe Lischio\Desktop\miktexTarget\tex/latex/inconsolata\ot1zi4.f
 d"
@@ -819,10 +819,10 @@ File: ot1zi4.fd 2018/01/14 OT1/zi4 (Inconsolata)
 <./Images/Entity.png, id=21, 1883.53688pt x 478.78876pt>
 File: ./Images/Entity.png Graphic file (type png)
 <use ./Images/Entity.png>
-Package pdftex.def Info: ./Images/Entity.png  used on input line 139.
+Package pdftex.def Info: ./Images/Entity.png  used on input line 143.
 (pdftex.def)             Requested size: 508.56177pt x 129.27469pt.
 
-Overfull \hbox (24.8649pt too wide) in paragraph at lines 139--140
+Overfull \hbox (24.8649pt too wide) in paragraph at lines 143--144
  [] 
  []
 
@@ -830,41 +830,101 @@ Overfull \hbox (24.8649pt too wide) in paragraph at lines 139--140
 <./Images/FSM.png, id=27, 1107.38719pt x 1068.24094pt>
 File: ./Images/FSM.png Graphic file (type png)
 <use ./Images/FSM.png>
-Package pdftex.def Info: ./Images/FSM.png  used on input line 180.
+Package pdftex.def Info: ./Images/FSM.png  used on input line 184.
 (pdftex.def)             Requested size: 442.94704pt x 427.2888pt.
  [3 <./Images/FSM.png>]
 <./Images/Behavioral.png, id=32, 1469.49pt x 1046.40938pt>
 File: ./Images/Behavioral.png Graphic file (type png)
 <use ./Images/Behavioral.png>
-Package pdftex.def Info: ./Images/Behavioral.png  used on input line 254.
+Package pdftex.def Info: ./Images/Behavioral.png  used on input line 258.
 (pdftex.def)             Requested size: 455.5372pt x 324.38356pt.
- [4] [5 <./Images/Behavioral.png>] [6] (Documentazione.aux) ) 
+ [4] [5 <./Images/Behavioral.png>]
+<./Images/postSynthesisUtilization.png, id=40, 373.395pt x 162.6075pt>
+File: ./Images/postSynthesisUtilization.png Graphic file (type png)
+<use ./Images/postSynthesisUtilization.png>
+Package pdftex.def Info: ./Images/postSynthesisUtilization.png  used on input l
+ine 294.
+(pdftex.def)             Requested size: 298.7164pt x 130.08617pt.
+ [6 <./Images/postSynthesisUtilization.png>]
+<./Images/dettaglio_behavioral.png, id=47, 702.37407pt x 331.99031pt>
+File: ./Images/dettaglio_behavioral.png Graphic file (type png)
+<use ./Images/dettaglio_behavioral.png>
+Package pdftex.def Info: ./Images/dettaglio_behavioral.png  used on input line 
+337.
+(pdftex.def)             Requested size: 491.65851pt x 232.39162pt.
+
+Overfull \hbox (7.96164pt too wide) in paragraph at lines 337--337
+[]  
+ []
+
+<./Images/dettaglio_postSynthesisTiming_5ns.png, id=48, 657.2053pt x 331.99031p
+t>
+File: ./Images/dettaglio_postSynthesisTiming_5ns.png Graphic file (type png)
+<use ./Images/dettaglio_postSynthesisTiming_5ns.png>
+Package pdftex.def Info: ./Images/dettaglio_postSynthesisTiming_5ns.png  used o
+n input line 345.
+(pdftex.def)             Requested size: 492.90276pt x 248.99211pt.
+
+Overfull \hbox (9.20589pt too wide) in paragraph at lines 345--345
+[]  
+ []
+
+[7 <./Images/dettaglio_behavioral.png> <./Images/dettaglio_postSynthesisTiming_
+5ns.png>]
+<./Images/sequential1.png, id=54, 627.84563pt x 127.97812pt>
+File: ./Images/sequential1.png Graphic file (type png)
+<use ./Images/sequential1.png>
+Package pdftex.def Info: ./Images/sequential1.png  used on input line 353.
+(pdftex.def)             Requested size: 470.88306pt x 95.98334pt.
+<./Images/sequential2.png, id=55, 627.84563pt x 207.02344pt>
+File: ./Images/sequential2.png Graphic file (type png)
+<use ./Images/sequential2.png>
+Package pdftex.def Info: ./Images/sequential2.png  used on input line 354.
+(pdftex.def)             Requested size: 470.88306pt x 155.26718pt.
+<./Images/sequential3.png, id=56, 627.84563pt x 380.92313pt>
+File: ./Images/sequential3.png Graphic file (type png)
+<use ./Images/sequential3.png>
+Package pdftex.def Info: ./Images/sequential3.png  used on input line 355.
+(pdftex.def)             Requested size: 470.88306pt x 285.69164pt.
+<./Images/sequential4.png, id=57, 629.35126pt x 191.9672pt>
+File: ./Images/sequential4.png Graphic file (type png)
+<use ./Images/sequential4.png>
+Package pdftex.def Info: ./Images/sequential4.png  used on input line 356.
+(pdftex.def)             Requested size: 472.01228pt x 143.97504pt.
+ [8 <./Images/sequential1.png> <./Images/sequential2.png> <./Images/sequential3
+.png>]
+Overfull \hbox (6.26703pt too wide) in paragraph at lines 363--364
+\OT1/cmr/m/n/10 La macchina e stata quindi pro-get-tata at-ten-den-dosi alla s
+peci-fica e ne e stato tes-tato il fun-zion-a-mento. L'algoritmo
+ []
+
+[9 <./Images/sequential4.png>] (Documentazione.aux) ) 
 Here is how much of TeX's memory you used:
- 19262 strings out of 480934
- 387322 string characters out of 2900812
+ 19312 strings out of 480934
+ 388758 string characters out of 2900812
  566442 words of memory out of 3000000
- 34758 multiletter control sequences out of 15000+200000
+ 34808 multiletter control sequences out of 15000+200000
  554120 words of font info for 104 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,8n,60p,1039b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Giusepp
-e Lischio\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.
-pk>{C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/enc/dvips/inconsolata/
-i4-ot1-0.enc}<C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/public
-/inconsolata/Inconsolata-zi4r.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarg
-et/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Giuseppe Lischio/Desktop
-/miktexTarget/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Giuseppe Lisc
-hio/Desktop/miktexTarget/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Giu
-seppe Lischio/Desktop/miktexTarget/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:
-/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/public/amsfonts/cm/cmr
-17.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/public/amsfo
-nts/cm/cmr6.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/pub
-lic/amsfonts/cm/cmr7.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/
-type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarg
-et/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Documentazione.pdf (7 pages, 517767 bytes).
+ 60i,8n,60p,973b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Giuseppe Lischi
+o\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk>{C:/U
+sers/Giuseppe Lischio/Desktop/miktexTarget/fonts/enc/dvips/inconsolata/i4-ot1-0
+.enc}<C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/public/inconso
+lata/Inconsolata-zi4r.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts
+/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexT
+arget/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Giuseppe Lischio/Desk
+top/miktexTarget/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Giuseppe Li
+schio/Desktop/miktexTarget/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/G
+iuseppe Lischio/Desktop/miktexTarget/fonts/type1/public/amsfonts/cm/cmr17.pfb><
+C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/public/amsfonts/cm/c
+mr6.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/public/amsf
+onts/cm/cmr7.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts/type1/pu
+blic/amsfonts/cm/cmr8.pfb><C:/Users/Giuseppe Lischio/Desktop/miktexTarget/fonts
+/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on Documentazione.pdf (10 pages, 647093 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
+ 105 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 

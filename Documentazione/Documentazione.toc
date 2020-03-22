@@ -13,4 +13,8 @@
 \contentsline {section}{\numberline {3}Risultati della Sintesi}{6}%
 \contentsline {section}{\numberline {4}Simulazioni}{6}%
 \contentsline {subsection}{\numberline {4.1}Test Benches}{6}%
-\contentsline {section}{\numberline {5}Conclusioni}{6}%
+\contentsline {subsection}{\numberline {4.2}Screenshots}{7}%
+\contentsline {paragraph}{Simulazione Behavioral sequenziale}{7}%
+\contentsline {paragraph}{Simulazione Post-Synthesis Timing 5ns}{7}%
+\contentsline {paragraph}{Codice Test Bench Sequenziale}{8}%
+\contentsline {section}{\numberline {5}Conclusioni}{9}%

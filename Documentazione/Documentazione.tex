@@ -47,7 +47,7 @@ Il metodo di codifica a working-zone propone un'ottimizzazione orientata alla ri
 
 \medskip
 
-Sia dato un generico sistema composto da un processore e una memoria esterna al chip referenziabile tramite un bus indirizzi. Questo metodo suggerisce che un programma in esecuzione sul dato sistema sfrutti durante la sua esecuzione un insieme di indirizzi "preferiti", e che quindi sia più efficiente racchiudere tutti questi indirizzi dentro uno spazio di lavoro (detto appunto Working-Zones). 
+Sia dato un generico sistema composto da un processore e una memoria esterna al chip referenziabile tramite un bus indirizzi. Questo metodo suggerisce che un programma in esecuzione sul dato sistema sfrutti durante la sua esecuzione un insieme di indirizzi "preferiti", e che quindi sia più efficiente racchiudere tutti questi indirizzi dentro uno spazio di lavoro (detto appunto Working-Zone). 
 
 \medskip
 
@@ -76,6 +76,10 @@ L'indirizzo di memoria 9 conterrà a fine computazione un numero di 8 bit senza 
 \medskip
 
 I restanti indirizzi sono tutti inizializzati a 0 e non vengono sfruttati durante la computazione.
+
+\medskip
+
+Gli indirizzi delle Working-Zones sono inoltre supposti non ripetuti, ed inoltre è supposto che non ci sia overlapping tra gli spazi delle varie Working-Zones. Per cui ogni indirizzo analizzato appartiene al più ad una Working-Zone.
 
 \end{flushleft}
 \subsection{La fase di traduzione}
@@ -285,10 +289,10 @@ encodedOutput
 
 \end{flushleft}
 \section{Risultati della Sintesi}
-Il componente progettato è stato sintetizzato in maniera virtuale tramite l'apposito tool di Vivado. La sintetizzazione ha dato un risultato positivo, ed il componente è stato successivamente testato anche post sintesi, con gli stessi test effettuati per il solo funzionamento logico. Inoltre è emerso che il componente funziona correttamente anche impostando periodi di clock molto inferiori al requisito minimo della specifica (100 ns). Qui di seguito il dettaglio dei segnali del componente durante un test con clock a 5 ns:
-
-%%da aggiungere screen con il dettaglio dei segnali con clock tipo a 10ns
-
+Il componente progettato è stato sintetizzato in maniera virtuale tramite l'apposito tool di Vivado. Come FPGA target è stata utilizzata una Xilinx xc7a200tfbg484-1. La sintetizzazione ha dato un risultato positivo, ed il componente è stato successivamente testato anche post sintesi, con gli stessi test effettuati per il solo funzionamento logico. È emerso che il componente funziona correttamente anche impostando periodi di clock molto inferiori al requisito minimo della specifica (100 ns). Il report post sintesi di Vivado ha inoltre rilevato le seguenti percentuali di utilizzo delle risorse della FPGA utilizzata: 
+\begin{center}
+\includegraphics[scale=0.8]{postSynthesisUtilization} \\
+\end{center}
 
 \section{Simulazioni}
 
@@ -312,7 +316,7 @@ Le tipologie di simulazione descritte sopra, sono state applicate su casi di tes
 
 \item Test Bench singolo: test analogo a quello fornito dal personale docente, che sottopone alla macchina un singolo caso di test, per poi terminare.
 
-\item Test Bench sequenziale: vengono sottoposti alla macchina dei casi di test da effettuare in maniera sequenziale. Per effettuare questo tipo di test, si è pensato di aggiungere al test bench singolo, una gestione dei valori in input tramite un file di testo, contente un caso di test per ogni riga. La macchina, dopo aver terminato la computazione (ritornando allo stato di reset???) ed aver riportato il segnale \begin{gitFont}tb{\_}done \end{gitFont} al livello basso, riceve un segnale creato ad hoc, chiamato \begin{gitFont}load{\_}ram \end{gitFont}, grazie al quale viene fatta partire la lettura di un nuovo caso di test da input, i cui valori vengono copiati in memoria, e con i quali viene eseguita una nuova computazione. In questo modo si è potuto verificare che la macchina non ha problemi con il reset dei segnali e delle celle di memoria. Inoltre è stato possibile testare la macchina su migliaia di casi di test diversi, generati automaticamente tramite degli appositi script. 
+\item Test Bench sequenziale: vengono sottoposti alla macchina dei casi di test da effettuare in maniera sequenziale. Per effettuare questo tipo di test, si è pensato di aggiungere al test bench singolo, una gestione dei valori in input tramite un file di testo, contente un caso di test per ogni riga. La macchina, dopo aver terminato la computazione ed aver riportato il segnale \textit{tb{\_}done} al livello basso, riceve un segnale creato ad hoc, chiamato \textit{load{\_}ram}, grazie al quale viene fatta partire la lettura di un nuovo caso di test da input, i cui valori vengono copiati in memoria, e con i quali viene eseguita una nuova computazione. In questo modo si è potuto verificare che la macchina non ha problemi con il reset dei segnali e delle celle di memoria. Inoltre è stato possibile testare la macchina su decine di migliaia di casi di test diversi, generati automaticamente tramite degli appositi script. 
 %%qui c'è da inserire la foto e evidenziare il fatto che c'è un segnale di load ram che carica la nuova sequenza di valori presi dal file
 
 \item Test Bench reset asincrono: viene testata la capacità della macchina di gestire un reset asincrono durante l'esecuzione di casi di test sequenziali 
@@ -322,9 +326,40 @@ Le tipologie di simulazione descritte sopra, sono state applicate su casi di tes
 
 
 
-%%poi da fare un elenco con i vari test bench eseguiti, spiegando cosa si è andato a testare. In particolare per il testing post sintesi timing fare il discorso su i vari test fatti con il periodo di clock sempre più corto.
+\newpage
+\subsection{Screenshots}
+
+
+\paragraph{Simulazione Behavioral sequenziale}
+Durante l'esecuzione di più casi di test consecutivi, si può notare come a seguito della memorizzazione del risultato computato, e dopo l'abbassamento - in questo caso contemporaneo - dei segnali \textit{tb{\_}done} e \textit{tb{\_}start}, il segnale \textit{load{\_}ram} venga alzato per consentire la lettura dei nuovi dati e poter cominciare un nuovo ciclo di computazione.
+ 
+\begin{flushleft}
+\includegraphics[scale=0.70]{dettaglio_behavioral} \\
+\end{flushleft}
+
+\bigskip
+\paragraph{Simulazione Post-Synthesis Timing 5ns}
+La macchina riesce ad effettuare la computazione anche con clock a 5ns. Si può notare come tra i fronti di discesa di \textit{tb{\_}done} e \textit{tb{\_}start} ci sia un piccolo ritardo di quasi un periodo di clock, dovuto alla rete combinatoria utilizzata per la sintesi virtuale del componente.
+
+\begin{flushleft}
+\includegraphics[scale=0.75]{dettaglio_postSynthesisTiming_5ns} \\
+\end{flushleft}
+
+\bigskip
+\paragraph{Codice Test Bench Sequenziale}
+%
+Qui di seguito si trovano alcuni snippet del codice del test bench sequenziale, opportunamente commentato.
+\begin{flushleft}
+\includegraphics[scale=0.75]{sequential1} \\
+\includegraphics[scale=0.75]{sequential2} \\
+\includegraphics[scale=0.75]{sequential3} \\
+\includegraphics[scale=0.75]{sequential4} \\
+\end{flushleft}
+
+
+
 
 \section{Conclusioni}
-
+La macchina è stata quindi progettata attendendosi alla specifica e ne è stato testato il funzionamento. L'algoritmo adottato è stato pensato per effettuare la computazione riducendo quanto possibile gli accessi. Si è notato che è in grado di lavorare anche a periodi di clock vicini a 1ns.
 
 \end{document}

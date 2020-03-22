@@ -72,9 +72,9 @@ begin
     --quando il segnale load_ram sale, viene letta una nuova riga nel file
     --contenente i casi di test da effettuare in sequenza
     if load_ram'event and load_ram = '1' then
-      readline(testValuesFile, row);
+      readline(testValuesFile, row); --lettura riga del file: ogni riga contiene un caso di test
       for i in 0 to 8 loop --loop per inserire in ram gli indirizzi delle wz
-        read(row, dataIn);
+        read(row, dataIn); --lettura di un singolo dato dalla riga
         RAM(i) <= std_logic_vector(to_unsigned(dataIn, 8));
       end loop;
       read(row, expectedResult); --lettura del valore atteso dopo la codifica
@@ -100,7 +100,7 @@ begin
     load_ram <= '0';
     wait for 100 ns;
     wait for c_CLOCK_PERIOD;
-    tb_rst <= '1';
+    tb_rst <= '1'; --inizialmente si porta la macchina nello stato di reset
     wait for c_CLOCK_PERIOD;
     tb_rst <= '0';
 
@@ -112,12 +112,12 @@ begin
       wait for c_CLOCK_PERIOD;
       load_ram <= '0';
       wait for c_CLOCK_PERIOD;
-      tb_start <= '1';
+      tb_start <= '1'; --segnale di 'start' alto per iniziare una nuova computazione
       wait for c_CLOCK_PERIOD;
-      wait until tb_done = '1';
+      wait until tb_done = '1'; --attesa finchè la macchina non pone 'done' ad 1
       wait for c_CLOCK_PERIOD;
       tb_start <= '0';
-      wait until tb_done = '0';
+      wait until tb_done = '0'; --dopo aver abbassato 'start', si attende la discesa di 'done'
 
       -- Assertions
       assert RAM(9) = std_logic_vector(to_unsigned(expectedResult, 8)) report "TEST #" & integer'image(testCount) & " FALLITO. Expected " & integer'image(expectedResult) & " but found: " & integer'image(to_integer(unsigned(RAM(9))))  severity failure;
