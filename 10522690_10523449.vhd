@@ -21,15 +21,15 @@ use IEEE.NUMERIC_STD.ALL;
 
 --- ENTITY DEL PROGETTO ---
 entity project_reti_logiche is
-    Port ( i_clk : in STD_LOGIC;                           --Input clock proveniente dal testbench.
-           i_start : in STD_LOGIC;                         --Segnale di avvio della computazione generato dal testbench.
-           i_rst : in STD_LOGIC;                           --Segnale di reset generato dal testbench.
-           i_data : in STD_LOGIC_VECTOR (7 downto 0);      --Input Byte proveniente dalla memoria esterna.
-           o_address : out STD_LOGIC_VECTOR (15 downto 0); --Indirizzo di memoria per cui si richiede lettura/scrittura.
-           o_done : out STD_LOGIC;                         --Segnale di terminazione della computazione generato dal componente.
-           o_en : out STD_LOGIC;                           --Segnale di ENABLE per poter comunicare con la memoria.
-           o_we : out STD_LOGIC;	                         --Segnale di abilitazione alla scrittura in memoria.
-           o_data : out STD_LOGIC_VECTOR (7 downto 0));    --Dato da scrivere in memoria.
+    Port ( i_clk : in STD_LOGIC;                             --Input clock proveniente dal testbench.
+           i_start : in STD_LOGIC;                           --Segnale di avvio della computazione generato dal testbench.
+           i_rst : in STD_LOGIC;                             --Segnale di reset generato dal testbench.
+           i_data : in STD_LOGIC_VECTOR (7 downto 0);        --Input Byte proveniente dalla memoria esterna.
+           o_address : out STD_LOGIC_VECTOR (15 downto 0);   --Indirizzo di memoria per cui si richiede lettura/scrittura.
+           o_done : out STD_LOGIC;                           --Segnale di terminazione della computazione generato dal componente.
+           o_en : out STD_LOGIC;                             --Segnale di ENABLE per poter comunicare con la memoria.
+           o_we : out STD_LOGIC;	                           --Segnale di abilitazione alla scrittura in memoria.
+           o_data : out STD_LOGIC_VECTOR (7 downto 0));      --Dato da scrivere in memoria.
 end project_reti_logiche;
 
 -- BEHAVIORAL ARCHITECTURE --
@@ -55,14 +55,14 @@ architecture Behavioral of project_reti_logiche is
   begin
     process (i_clk, i_rst)
     -- Variabili
-    variable addressToEncode: std_logic_vector(7 downto 0);   -- std_logic_vector in cui salvare l'indirizzo su cui effettuare l'encoding
-    variable wzBase: std_logic_vector(7 downto 0);            --indirizzo base della working zone letta
-    variable wzCounter: integer range -1 to 8;                --contatore che tiene traccia degli indirizzi base delle wz finora analizzati
-    variable wzOffset: integer;                               --Range 0 to 3
-    variable baseInteger: integer;
-    variable addressInteger: integer;                         --offset dell'indirizzo da codificare rispetto alla base della WZ che si sta analizzando
-    variable encodedOutput: std_logic_vector (7 downto 0);    -- contiene l'indirizzo codificato rispetto ad una WZ.
-    variable onehotOffset: std_logic_vector (3 downto 0);     -- Contiene la codifica onehot dell'offset
+    variable addressToEncode: std_logic_vector(7 downto 0);      --Byte in cui salvare l'indirizzo da codificare.
+    variable wzBase: std_logic_vector(7 downto 0);               --Indirizzo base di una Working-Zone.
+    variable wzCounter: integer range -1 to 8;                   --Contatore necessario a ciclare le 8 basi.
+    variable wzOffset: integer;                                  --Variabile che contiene l'offset rispetto ad una base.
+    variable baseInteger: integer;                               --Variabile ausiliaria.
+    variable addressInteger: integer;                            --Variabile ausiliaria.
+    variable encodedOutput: std_logic_vector (7 downto 0);       --Contiene l'indirizzo codificato rispetto alla Working-Zone.
+    variable onehotOffset: std_logic_vector (3 downto 0);        --Contiene la codifica onehot dell'offset.
 
     --Gestione asincrona del segnale di reset.
     begin
@@ -72,7 +72,7 @@ architecture Behavioral of project_reti_logiche is
 
       if (rising_edge(i_clk)) then
         case state is
-          when RESET =>                       --Stato di inizializzazione
+          when RESET =>                            --Stato di inizializzazione
             if (i_start = '1') then
               addressToEncode := "00000000";
               o_data <= "00000000";
@@ -153,7 +153,6 @@ architecture Behavioral of project_reti_logiche is
                 end case;
 
           state <= WZ_FOUND;
-
 
 
           when WZ_FOUND =>
