@@ -1,20 +1,21 @@
-\contentsline {section}{Contents}{I}%
+\contentsline {section}{Contents}{II}%
 \contentsline {section}{\numberline {1}Introduzione}{1}%
 \contentsline {subsection}{\numberline {1.1}Dati Progettuali e Specifica}{1}%
 \contentsline {subsection}{\numberline {1.2}La fase di traduzione}{1}%
 \contentsline {subsubsection}{\numberline {1.2.1}Entity del componente}{2}%
-\contentsline {section}{\numberline {2}Architettura e Scelte Progettuali}{2}%
-\contentsline {subsection}{\numberline {2.1}L'algoritmo}{2}%
-\contentsline {subsection}{\numberline {2.2}Non Appartenenza}{2}%
+\contentsline {section}{\numberline {2}Architettura e Scelte Progettuali}{3}%
+\contentsline {subsection}{\numberline {2.1}L'algoritmo}{3}%
+\contentsline {subsection}{\numberline {2.2}Non Appartenenza}{3}%
 \contentsline {subsection}{\numberline {2.3}Appartenenza}{3}%
-\contentsline {subsection}{\numberline {2.4}Il design: La macchina a stati}{3}%
-\contentsline {subsubsection}{\numberline {2.4.1}Descrizione degli stati}{4}%
-\contentsline {subsection}{\numberline {2.5}Il Codice VHDL}{4}%
-\contentsline {section}{\numberline {3}Risultati della Sintesi}{6}%
-\contentsline {section}{\numberline {4}Simulazioni}{6}%
-\contentsline {subsection}{\numberline {4.1}Test Benches}{6}%
-\contentsline {subsection}{\numberline {4.2}Screenshots}{7}%
-\contentsline {paragraph}{Simulazione Behavioral sequenziale}{7}%
-\contentsline {paragraph}{Simulazione Post-Synthesis Timing 5ns}{7}%
-\contentsline {paragraph}{Codice Test Bench Sequenziale}{8}%
-\contentsline {section}{\numberline {5}Conclusioni}{9}%
+\contentsline {subsection}{\numberline {2.4}Il design: La macchina a stati}{4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Descrizione degli stati}{5}%
+\contentsline {subsection}{\numberline {2.5}Il Codice VHDL}{6}%
+\contentsline {section}{\numberline {3}Risultati della Sintesi}{7}%
+\contentsline {section}{\numberline {4}Simulazioni}{8}%
+\contentsline {subsection}{\numberline {4.1}Test Benches}{8}%
+\contentsline {subsection}{\numberline {4.2}Screenshots}{9}%
+\contentsline {paragraph}{Simulazione Behavioral sequenziale}{9}%
+\contentsline {paragraph}{Simulazione Post-Synthesis Timing 5ns}{9}%
+\contentsline {paragraph}{Simulazione Behavioral, Reset Asincrono}{10}%
+\contentsline {paragraph}{Codice Test Bench Sequenziale}{10}%
+\contentsline {section}{\numberline {5}Conclusioni}{12}%

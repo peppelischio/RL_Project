@@ -1,7 +1,6 @@
 \documentclass{article}
 
-\title{Prova Finale di Reti Logiche\\ \large Politecnico di Milano}
-\author{Lorenzo Gadolini, \\ Giuseppe Lischio}
+
 \usepackage[a4paper, includeheadfoot,margin=2cm]{geometry}
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -17,19 +16,56 @@
 \usepackage{MnSymbol}
 \usepackage{tocbibind}
 \usepackage[toc,page]{appendix}
+\usepackage{titling}
 
 \newenvironment{codeFont}{\fontfamily{pcr}\selectfont}{\par}
 \newenvironment{gitFont}{\fontfamily{zi4}\selectfont}{\par}
 
 
 
+\pretitle{
+
+\begin{center}
+\includegraphics[scale=0.45]{Polimi}
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+
+}
+\posttitle{ \end{center}}
+
+
+
+
 \begin{document}
+
+\title{\Huge Prova Finale del Corso di Reti Logiche\\ \huge Politecnico di Milano}
+\author{\Large Lorenzo Gadolini \and \Large Giuseppe Lischio.}
+\date{}
+
+
+
+\bigskip
 
 \maketitle
 
+
+
+
 \pagenumbering{Roman}
 
+\newpage
+
 \tableofcontents
+
+
+
 
 
 \newpage
@@ -43,7 +79,7 @@
 
 \section{Introduzione}
 \begin{flushleft}
-Il metodo di codifica a working-zone propone un'ottimizzazione orientata alla riduzione del consumo di energia introdotto dall'input/output di un microprocessore.
+Il metodo di codifica a Working-Zones propone un'ottimizzazione orientata alla riduzione del consumo di energia introdotto dall'input/output di un microprocessore.
 
 \medskip
 
@@ -54,6 +90,8 @@ Sia dato un generico sistema composto da un processore e una memoria esterna al 
 Gli indirizzi di queste Working-Zones sono codificati tramite un sistema base e offset, così da ridurre ulteriormente la quantità di informazione trasmessa sul bus indirizzi, e di conseguenza ridurre anche l'energia dissipata.
 
 \end{flushleft}
+
+\bigskip
 \subsection{Dati Progettuali e Specifica}
 \begin{flushleft}
 
@@ -79,9 +117,11 @@ I restanti indirizzi sono tutti inizializzati a 0 e non vengono sfruttati durant
 
 \medskip
 
-Gli indirizzi delle Working-Zones sono inoltre supposti non ripetuti, ed inoltre è supposto che non ci sia overlapping tra gli spazi delle varie Working-Zones. Per cui ogni indirizzo analizzato appartiene al più ad una Working-Zone.
+Gli indirizzi delle Working-Zones sono supposti non ripetuti, ed inoltre si suppone che non ci sia overlapping tra gli spazi delle varie Working-Zones. Per cui ogni indirizzo analizzato appartiene al più ad una Working-Zone.
 
 \end{flushleft}
+
+\bigskip
 \subsection{La fase di traduzione}
 \begin{flushleft}
 
@@ -92,7 +132,7 @@ Nella fase di codifica il componente deve essere in grado di stabilire se un ind
 Un indirizzo che non appartiene a nessuna Working-Zone fa entrare il componente in uno stato di "Non appartenenza", stato in cui la macchina secondo specifica deve depositare in uscita il dato così come le è stato fornito, preceduto da un bit posto a "0".
 \smallskip
 
-Il dato in uscita è un intero binario naturale senza segno di 8 bit
+Il dato in uscita è un intero binario naturale senza segno di 8 bit.
 
 \bigskip
 
@@ -102,10 +142,12 @@ Il dato in uscita è un intero binario naturale senza segno di 8 bit
 
 \end{gitFont}
 
-\bigskip
+
+
+\newpage
 
 Se il componente stabilisce che l'indirizzo appartiene ad una Working-Zone, scatta la fase di "Appartenenza", il dato necessita di encoding.
-\smallskip
+
 
 Un indirizzo codificato è un numero di 8 bit senza segno composto da tre sottogruppi di bit.
 
@@ -113,7 +155,7 @@ Un indirizzo codificato è un numero di 8 bit senza segno composto da tre sottog
 \item Il bit più significativo viene posto ad "1", che indica "Codifica avvenuta";
 \item I tre bit successivi codificano posizionalmente la Working-Zone a cui tale indirizzo appartiene. Il dato in uscita è un numero binario naturale senza segno da 0 a 7 che indica che l'indirizzo appartiene alla "n-esima" Working-Zone.
 
-\newpage
+
 
 \item I quattro bit finali codificano l'offset dell'indirizzo dalla base. Il numero codificato è un numero binario One Hot. L'offset indica la distanza posizionale in memoria dall'indirizzo base, ovvero l'indirizzo "si trova a" n indirizzi dalla base.  %%Se si crea un appendice, spiegare la codifica one hot.
 \end{itemize}
@@ -130,11 +172,11 @@ Un indirizzo codificato è un numero di 8 bit senza segno composto da tre sottog
 
 \bigskip
 
-Sia che l'indirizzo appartenga o che non appartenga ad una Working-Zone, il componente prosegue sempre lungo la stessa fase di output. Il dato viene depositato in memoria, salvato, e la macchina entra in fase di attesa di reset e avvio per una successiva codifica.
+Sia che l'indirizzo appartenga o che non appartenga ad una Working-Zone, il componente prosegue sempre lungo la stessa fase di output. Il dato viene depositato in memoria, salvato, e la macchina entra in fase di attesa di reset e/o avvio per una successiva codifica.
 \end{flushleft}
 \subsubsection{Entity del componente}
 
-Il componente hardware è stato progettato tramite linguaggio VHDL in base alle specifiche fornite dal tema di progetto.
+Il componente hardware è stato descritto tramite linguaggio VHDL in base alle specifiche fornite dal tema di progetto.
 
 La struttura input/output del componente in VHDL è stata fornita nelle specifiche ed è di seguito riportata.
 
@@ -143,8 +185,18 @@ La struttura input/output del componente in VHDL è stata fornita nelle specific
 \includegraphics[scale=0.27]{Entity}
 \end{center}
 
+\bigskip
+\bigskip
+
+\begin{center}
+\line(1,0){350}
+\end{center}
+
+\newpage
 
 \section{Architettura e Scelte Progettuali}
+
+\bigskip
 
 \subsection{L'algoritmo}
 
@@ -157,34 +209,40 @@ Il progetto si basa su un algoritmo alquanto semplice.
 Dato uno stato iniziale di memoria, per prima cosa viene letto il dato di cui si necessita la codifica dall'indirizzo di memoria numero 8, successivamente il componente entra in un ciclo di calcolo. In questo ciclo di calcolo vengono letti uno alla volta i byte di memoria 0-7 contenenti gli indirizzi base delle Working zones.
 \smallskip
 
- Il componente sottrae l'indirizzo da codificare all'indirizzo base letto, e verifica che il risultato cada fra 0 e 3. Questo risultato ha il significato di offset, e come da specifica, un offset compreso fra 0 e 3 (inclusi) indica un'appartenenza alla working zone. Qualsiasi altro risultato viene interpretato come "Non appartenenza".
+ Il componente sottrae l'indirizzo da codificare all'indirizzo base letto, e verifica che il risultato cada fra 0 e 3. Questo risultato ha il significato di offset, e come da specifica, un offset compreso fra 0 e 3 (inclusi) indica un'appartenenza alla Working-Zone. Qualsiasi altro risultato viene interpretato come "Non appartenenza".
+
+\bigskip
 
 \subsection{Non Appartenenza}\label{notA}
 
-Un risultato che non appartiene a nessuna working zone deve venire propagato in uscita così come è stato letto da memoria in entrata. Il componente ha terminato gli otto cicli di verifica e ha determinato che l'indirizzo in input non appartiene a nessuna working zone. A questo punto la macchina carica i 7 bit dell'indirizzo nel registro di output, il quale era stato inizializzato con 8 bit tutti posti a zero, così da rispettare la specifica che prevede di emettere in uscita uno 0 seguito dai 7 bit dell'indirizzo scritti in binario naturale senza segno.
+Un risultato che non appartiene a nessuna Working-Zone deve venire propagato in uscita così come è stato letto da memoria in entrata. Il componente ha terminato gli otto cicli di verifica e ha determinato che l'indirizzo in input non appartiene a nessuna Working-Zone. A questo punto la macchina carica i 7 bit dell'indirizzo nel registro di output, il quale era stato inizializzato con 8 bit tutti posti a zero, così da rispettare la specifica che prevede di emettere in uscita uno 0 seguito dai 7 bit dell'indirizzo scritti in binario naturale senza segno.
 
-\newpage
+\bigskip
 
 \subsection{Appartenenza}\label{app}
 
-Se il componente durante la sua esecuzione verifica che l'indirizzo da codificare cade all'interno di una delle basi, allora si avvia la procedura di encoding. Per prima cosa viene codificato l'offset. Il risultato della sottrazione appartiene ad un insieme finito e ristretto di valori, per questo si è scelto di creare una lookup table che contenesse le codifiche in onehot da assegnare al valore di uscita a seconda del valore di offset.
-Una volta scritto in memoria il primo quartetto di bit, il componente passa alla traduzione della tripletta di bit contenente l'indirizzo della working zone. Questa fase scrive i tre bit nel registro di out che corrispondono al valore binario naturale del byte di memoria che contiene l'indirizzo base.
+Se il componente durante la sua esecuzione verifica che l'indirizzo da codificare cade all'interno di una delle basi, allora si avvia la procedura di encoding. Per prima cosa viene codificato l'offset. Il risultato della sottrazione appartiene ad un insieme finito e ristretto di valori, per questo si è scelto di creare una Lookup Table che contenesse tali valori di offset già tradotti in codifica OneHot. La macchina si occupa di assegnare al valore di uscita uno dei valori di offset tradotti.
+Una volta scritto in memoria il primo quartetto di bit, il componente passa alla traduzione della tripletta di bit contenente l'indirizzo della Working-Zones. Questa fase scrive i tre bit che corrispondono al valore binario naturale del byte di memoria che contiene l'indirizzo base nel registro di out.
 
 Infine il componente pone ad 1 il MSB del valore di uscita, cosi che chi riceve il valore tradotto a valle riconosce che è stato effettuato l'encoding.
 
 
+
 \end{flushleft}
+
+\newpage
+
 \subsection{Il design: La macchina a stati}
 
-Il progetto del componente parte dalla descrizione di una macchina a stati che esegua l'algoritmo poco fa descritto
+Il progetto del componente parte dalla descrizione di una macchina a stati che esegua l'algoritmo sopra enunciato.
 
 La macchina a stati completa che esegue la codifica è disegnata qui:
 
 \begin{flushleft}
-\includegraphics[scale=0.40]{FSM}
+\includegraphics[scale=0.45]{FSM}
 \end{flushleft}
 
-Nel paragrafo \ref{fsm} verranno descritti i compiti dei singoli stati e delle transizioni.
+Nel paragrafo \ref{fsm} verranno specificati i compiti dei singoli stati e delle transizioni.
 
 \newpage
 
@@ -192,7 +250,7 @@ Nel paragrafo \ref{fsm} verranno descritti i compiti dei singoli stati e delle t
 
 \begin{itemize}
 
-\item RESET: Lo stato in cui la macchina viene avviata e a cui giunge una volta che riceve il segnale di reset. La macchina cicla su questo stato attendendo un segnale di start. Successivamente inizializza la memoria e salta al primo vero stato di esecuzione.
+\item RESET: Lo stato in cui la macchina viene avviata e a cui giunge una volta che riceve il segnale di reset o che termina una computazione. La macchina cicla su questo stato attendendo un segnale di start. Successivamente inizializza la memoria e salta al primo vero stato di esecuzione.
 
 \item RQST\_ ADDR: La macchina richiede alla memoria l'indirizzo da codificare.
 
@@ -200,7 +258,7 @@ Nel paragrafo \ref{fsm} verranno descritti i compiti dei singoli stati e delle t
 
 \item READ\_ ADDR: La macchina ottiene il dato dalla memoria.
 
-\item RQST\_ WZ: La macchina richiede alla memoria il valore della n\_ esima base, dove n è compreso fra 0 e 7.
+\item RQST\_ WZ: La macchina richiede alla memoria il valore della n-esima base, dove n è compreso fra 0 e 7.
 
 \item WAIT\_ WZ: La macchina attende un ciclo di clock la propagazione dei segnali alla memoria.
 
@@ -210,36 +268,37 @@ Nel paragrafo \ref{fsm} verranno descritti i compiti dei singoli stati e delle t
 
 \item ONEHOT\_ ENCODE: La macchina codifica l'offset di un indirizzo che ha dato esito positivo in una comparazione.
 
-\item WZ\_ FOUND: La macchina prepara il byte contenente il dato codificato e notifica alla memoria che è pronto per essere scritto
+\item WZ\_ FOUND: La macchina prepara il byte contenente il dato codificato e notifica alla memoria che è pronto per essere scritto.
 
-\item WZ\_ NOT\_ FOUND: La macchina notifica alla memoria che il dato non appartiene a nessuna Working Zone, e che è pronta a propagarlo senza codifica.
+\item WZ\_ NOT\_ FOUND: La macchina notifica alla memoria che il dato non appartiene a nessuna Working-Zone, e che è pronta a propagarlo senza codifica.
 
-\item MEM\_ WRITE \_ WAIT: La macchina attende un clock che la memoria riceva la sua richiesta di scrittura
+\item MEM\_ WRITE \_ WAIT: La macchina attende un ciclo di clock che la memoria riceva la sua richiesta di scrittura.
 
 \item MEM\_ WRITE\_ DONE: La macchina completa la fase di scrittura.
 
-\item DONE: La macchina notifica il raggiungimento dello stato di terminazione.
+\item DONE: La macchina notifica il raggiungimento dello stato di terminazione portando il segnale di completamento ad '1'.
 
-\item FSM\_ CLOSE: La macchina entra in attesa di una richiesta di reset.
+\item FSM\_ CLOSE: La macchina attende che il segnale di avvio torni a '0' per poter portare a '0' il segnale di completamento e successivamente passare allo stato di reset per avviare un'eventuale computazione successiva.
 
 \end{itemize}
 
 \begin{flushleft}
 
 
-Nel grafico della macchina è stato escluso l'autoanello dello stato di reset. L'autoanello è necessario perchè permette alla macchina di rimanere in attesa su tale stato che il segnale di start si alzi, dando il via ad una nuova computazione.
+Nel grafico della macchina è stato escluso l'autoanello dello stato di reset. L'autoanello è necessario perchè permette alla macchina di rimanere in attesa su tale stato che il segnale di avvio torni ad '1', iniziando una nuova computazione.
 \smallskip
+
+Nel grafico per lo stesso motivo è stato escluso l'autoanello sullo stato FSM\_ CLOSE. La macchina in tale stato attende ciclando sull'autoanello che il segnale di avvio vada a '0'.
 
  Sono stati inoltre esclusi tutti gli archi che da ogni singolo stato portano allo stato di reset.
-\begin{gitFont}i{\_}rst \end{gitFont} potrebbe venire posto alto (ad "1") in qualsiasi momento della computazione. 
+\begin{gitFont}i{\_}rst \end{gitFont} potrebbe venire posto ad '1' in qualsiasi momento della computazione. 
 \smallskip
 
-Data questa evenienza è necessario che la macchina in qualsiasi stato si trovi abbandoni l'encoding ed entri nello stato di reset. 
+Data questa evenienza è necessario che la macchina, in qualsiasi stato si trovi, abbandoni l'encoding ed entri nello stato di reset. 
 \smallskip
 
 Questo si ottiene con una gestione asincrona della verifica del segnale. 
-Ad ogni ciclo di clock viene analizzato il segnale, e se posto ad "1" la macchina esegue una transizione allo stato in cui si trova a RESET.
-
+Ad ogni ciclo di clock viene analizzato tale segnale, e se riscontrato ad '1' la macchina esegue una transizione dallo stato in cui si trova a RESET.
 
 \end{flushleft}
 
@@ -247,10 +306,9 @@ Ad ogni ciclo di clock viene analizzato il segnale, e se posto ad "1" la macchin
 
 \begin{flushleft}
 
+In questo piccolo paragrafo viene fatta un'analisi di come è stata descritta la macchina a stati in linguaggio VHDL, analizzandone i segnali e i registri necessari al funzionamento.
 
-Fino a questo momento non è stata data nessuna descrizione fisica del componente al di fuori delle specifiche che descrivono il problema. In questo piccolo paragrafo viene fatta un'analisi di come è stata descritta la macchina a stati in linguaggio VHDL, analizzandone i segnali e i registri necessari al funzionamento.
-
-Il componente è stato descritto tramite codice VHDL Behavioral che implementa tutti gli stati descritti nel paragrafo \ref{fsm}.
+Il componente è stato descritto tramite codice VHDL Behavioral che implementa tutti gli stati elencati nel paragrafo \ref{fsm}.
 
  Oltre all'architettura fornita dalla specifica, il componente possiede altri segnali e registri che si sono resi necessari in fase di scrittura di codice.
 
@@ -283,16 +341,40 @@ encodedOutput
 
 \item \begin{gitFont}
 encodedOutput
-\end{gitFont} Variabile di tipo std{\_}logic{\_}vector a 4 bit che viene sfruttata dalla macchina per salvare il valore di offset in codifica onehot.
+\end{gitFont} Variabile di tipo std{\_}logic{\_}vector a 4 bit che viene sfruttata dalla macchina per salvare il valore di offset in codifica OneHot.
 
 \end{itemize}
 
 \end{flushleft}
+
+\bigskip
+
+
+
+
+\begin{center}
+\line(1,0){350}
+\end{center}
+
+\bigskip
+\bigskip
 \section{Risultati della Sintesi}
-Il componente progettato è stato sintetizzato in maniera virtuale tramite l'apposito tool di Vivado. Come FPGA target è stata utilizzata una Xilinx xc7a200tfbg484-1. La sintetizzazione ha dato un risultato positivo, ed il componente è stato successivamente testato anche post sintesi, con gli stessi test effettuati per il solo funzionamento logico. È emerso che il componente funziona correttamente anche impostando periodi di clock molto inferiori al requisito minimo della specifica (100 ns). Il report post sintesi di Vivado ha inoltre rilevato le seguenti percentuali di utilizzo delle risorse della FPGA utilizzata: 
+Il componente progettato è stato sintetizzato in maniera virtuale tramite l'apposito tool di Vivado. Come FPGA target è stata utilizzata una Xilinx xc7a200tfbg484-1. La sintetizzazione ha dato un risultato positivo, ed il componente è stato testato con successo sia con test Behavioral che Post-Synthesis, con gli stessi test effettuati per il solo funzionamento logico. È emerso che il componente funziona correttamente anche impostando periodi di clock molto inferiori al requisito minimo della specifica (100 ns). Il report post sintesi di Vivado ha inoltre rilevato le seguenti percentuali di utilizzo delle risorse della FPGA utilizzata: 
+\bigskip
+
 \begin{center}
 \includegraphics[scale=0.8]{postSynthesisUtilization} \\
 \end{center}
+
+
+\bigskip
+\bigskip
+
+\begin{center}
+\line(1,0){350}
+\end{center}
+
+\newpage
 
 \section{Simulazioni}
 
@@ -300,9 +382,9 @@ In questo paragrafo verranno discussi i metodi utilizzati per verificare il corr
 
 \begin{itemize}
 
-\item Simulazione \textbf{Behavioral}: test del funzionamento logico del componente, basato sul codice VHDL scritto, senza passare per la sintesi virtuale del componente.
+\item Simulazione \textbf{Behavioral}: test del funzionamento logico, basato sul codice VHDL scritto, senza passare per la sintesi virtuale del componente.
 
-\item Simulazione \textbf{Post-Synthesis Functional}: test che permette di verificare il comportamento strutturale del componente descritto. Viene eseguito dopo aver terminato il processo di sintesi virtuale
+\item Simulazione \textbf{Post-Synthesis Functional}: test che permette di verificare il comportamento strutturale del componente descritto. Viene eseguito dopo aver terminato il processo di sintesi virtuale.
 
 \item Simulazione \textbf{Post-Synthesis Timing}: test analogo al \textit{Post-Synthesis Functional}, che tiene però conto di tutti i ritardi introdotti dalle porte logiche usate nella simulazione del componente virtuale.
 
@@ -316,11 +398,10 @@ Le tipologie di simulazione descritte sopra, sono state applicate su casi di tes
 
 \item Test Bench singolo: test analogo a quello fornito dal personale docente, che sottopone alla macchina un singolo caso di test, per poi terminare.
 
-\item Test Bench sequenziale: vengono sottoposti alla macchina dei casi di test da effettuare in maniera sequenziale. Per effettuare questo tipo di test, si è pensato di aggiungere al test bench singolo, una gestione dei valori in input tramite un file di testo, contente un caso di test per ogni riga. La macchina, dopo aver terminato la computazione ed aver riportato il segnale \textit{tb{\_}done} al livello basso, riceve un segnale creato ad hoc, chiamato \textit{load{\_}ram}, grazie al quale viene fatta partire la lettura di un nuovo caso di test da input, i cui valori vengono copiati in memoria, e con i quali viene eseguita una nuova computazione. In questo modo si è potuto verificare che la macchina non ha problemi con il reset dei segnali e delle celle di memoria. Inoltre è stato possibile testare la macchina su decine di migliaia di casi di test diversi, generati automaticamente tramite degli appositi script. 
+\item Test Bench sequenziale: vengono sottoposti alla macchina dei casi di test da effettuare in maniera sequenziale. Per effettuare questo tipo di test, si è pensato di aggiungere al test bench singolo una gestione dei valori in input tramite un file di testo, contente un caso di test per ogni riga. La macchina, dopo aver terminato la computazione ed aver riportato il segnale \textit{tb{\_}done} a '0', riceve un segnale creato ad hoc, chiamato \textit{load{\_}ram}, grazie al quale viene fatta partire la lettura di un nuovo caso di test dal file, i cui valori vengono copiati in memoria, e con i quali viene eseguita una nuova computazione. In questo modo si è potuto verificare che la macchina non ha problemi con il reset dei segnali e delle celle di memoria. Inoltre è stato possibile testare la macchina su decine di migliaia di casi di test diversi, generati automaticamente tramite degli appositi script. 
 %%qui c'è da inserire la foto e evidenziare il fatto che c'è un segnale di load ram che carica la nuova sequenza di valori presi dal file
 
-\item Test Bench reset asincrono: viene testata la capacità della macchina di gestire un reset asincrono durante l'esecuzione di casi di test sequenziali 
-%%oppure faccio una sezione con tutti i vari screenshot, e per ognuno aggiungo un commento in cui spiego il contesto e la peculiarità da notare
+\item Test Bench reset asincrono: viene testata la capacità della macchina di gestire un reset asincrono durante l'esecuzione di casi di test sequenziali. In particolare durante l'esecuzione di un caso di test, e dopo un intervallo di tempo prefissato, viene portato ad '1' il segnale di reset senza attendere che la macchina abbia terminato la sua fase di calcolo. 
 
 \end{itemize}
 
@@ -331,21 +412,38 @@ Le tipologie di simulazione descritte sopra, sono state applicate su casi di tes
 
 
 \paragraph{Simulazione Behavioral sequenziale}
-Durante l'esecuzione di più casi di test consecutivi, si può notare come a seguito della memorizzazione del risultato computato, e dopo l'abbassamento - in questo caso contemporaneo - dei segnali \textit{tb{\_}done} e \textit{tb{\_}start}, il segnale \textit{load{\_}ram} venga alzato per consentire la lettura dei nuovi dati e poter cominciare un nuovo ciclo di computazione.
+Durante l'esecuzione di più casi di test consecutivi, si può notare come a seguito della memorizzazione del risultato computato, e dopo l'abbassamento - in questo caso contemporaneo - dei segnali \textit{tb{\_}done} e \textit{tb{\_}start}, il segnale \textit{load{\_}ram} venga portato ad '1' per consentire la lettura dei nuovi dati e poter cominciare un nuovo ciclo di computazione.
  
 \begin{flushleft}
 \includegraphics[scale=0.70]{dettaglio_behavioral} \\
 \end{flushleft}
 
 \bigskip
-\paragraph{Simulazione Post-Synthesis Timing 5ns}
-La macchina riesce ad effettuare la computazione anche con clock a 5ns. Si può notare come tra i fronti di discesa di \textit{tb{\_}done} e \textit{tb{\_}start} ci sia un piccolo ritardo di quasi un periodo di clock, dovuto alla rete combinatoria utilizzata per la sintesi virtuale del componente.
+\paragraph{Simulazione Post-Synthesis Timing 5ns}\label{fast}
+La macchina riesce ad effettuare la computazione anche con cicli di clock di durata 5ns. Si può notare come tra i fronti di discesa di \textit{tb{\_}done} e \textit{tb{\_}start} ci sia un piccolo ritardo di quasi un periodo di clock, dovuto alla rete combinatoria utilizzata per la sintesi virtuale del componente.
 
 \begin{flushleft}
 \includegraphics[scale=0.75]{dettaglio_postSynthesisTiming_5ns} \\
 \end{flushleft}
 
+
+\paragraph{Simulazione Behavioral, Reset Asincrono}
+
+L'innalzamento del segnale di reset durante l'esecuzione di una computazione viene gestito correttamente dalla macchina. Nel dettaglio, dopo aver ricevuto tale segnale , la macchina è in grado di riavviare la computazione interrotta e giungere al termine del caso di test. Ciò accade perchè il segnale di reset ripristina la macchina ma non la memoria del testbench, percui i dati letti restano identici all'esecuzione precedentemente interrotta.
+
+\begin{flushleft}
+\includegraphics[scale=0.53]{Rst_Async} \\
+\end{flushleft}
+
 \bigskip
+
+\begin{center}
+\line(1,0){150}
+\end{center}
+
+\bigskip
+
+
 \paragraph{Codice Test Bench Sequenziale}
 %
 Qui di seguito si trovano alcuni snippet del codice del test bench sequenziale, opportunamente commentato.
@@ -356,10 +454,55 @@ Qui di seguito si trovano alcuni snippet del codice del test bench sequenziale, 
 \includegraphics[scale=0.75]{sequential4} \\
 \end{flushleft}
 
+\bigskip
+\bigskip
 
+
+\begin{center}
+\line(1,0){450}
+\end{center}
+
+
+
+\newpage
 
 
 \section{Conclusioni}
-La macchina è stata quindi progettata attendendosi alla specifica e ne è stato testato il funzionamento. L'algoritmo adottato è stato pensato per effettuare la computazione riducendo quanto possibile gli accessi. Si è notato che è in grado di lavorare anche a periodi di clock vicini a 1ns.
+L'algoritmo presentato come soluzione al problema ha complessità di calcolo al più lineare col numero di indirizzi che si presentano in ingresso. Questa affermazione si può dedurre dal fatto che l'automa ha un numero finito di stati (da cui il nome "FSA", finite state automata) che vengono percorsi un numero finito di volte anche se ciclicamente.
+
+\smallskip
+
+Il componente descritto è stato simulato in differenti situazioni di test che vanno dal caso semplice ad interruzioni impreviste della computazione, e anche se sottoposto a questi edge case è stato in grado comunque di portare a termine il suo compito.
+
+\smallskip
+
+Nel paragrafo \ref{fast} si analizza un caso di test in cui si sottopone una sintesi di componente a periodi di clock 20 volte più brevi rispetto alla specifica. Durante le fasi di test Post Synthesis Timing si è cercato un limite inferiore per la durata di un periodo di clock che non inficiasse l'esecuzione di una codifica, e questo limite si è scoperto aggirarsi attorno ai 3950 \emph{ps}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
